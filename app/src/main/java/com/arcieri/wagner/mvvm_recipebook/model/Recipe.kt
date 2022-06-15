@@ -14,23 +14,23 @@ data class Recipe (
     val id: UUID = UUID.randomUUID(),
 
     @ColumnInfo(name = "recipe_name")
-    var name: String,
+    var name: String = "",
 
     @ColumnInfo(name = "recipe_image_ID", typeAffinity = ColumnInfo.BLOB)
     var image: Bitmap? = null,
 
     @ColumnInfo(name = "recipe_methods")
-    var recipeMethods: MutableList<String>?,
+    var recipeMethods: MutableList<String> = emptyList<String>().toMutableList(),
 
     @ColumnInfo(name = "recipe_ingredients")
-    var ingredients: MutableList<Ingredient>?,
+    var ingredients: MutableList<Ingredient> = emptyList<Ingredient>().toMutableList(),
 
     @ColumnInfo(name = "recipe_portions")
-    var portions: Int? = null,
+    var portions: Int = 0,
 
     @ColumnInfo(name = "recipe_time")
-    var recipeTime: Int? = null,
+    var recipeTime: Int = 0,
 
     @ColumnInfo(name = "recipe_bases")
-    var baseRecipes: MutableList<String>? = null
+    var baseRecipes: MutableList<String> = emptyList<String>().toMutableList()
 )

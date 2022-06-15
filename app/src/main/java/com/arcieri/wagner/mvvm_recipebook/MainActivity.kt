@@ -4,32 +4,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeData
-import com.arcieri.wagner.mvvm_recipebook.screen.ScreenAddEditRecipe
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.arcieri.wagner.mvvm_recipebook.navigation.RecipeBookNavigation
+import com.arcieri.wagner.mvvm_recipebook.screen.RecipeBookViewModel
 import com.arcieri.wagner.mvvm_recipebook.ui.theme.MVVM_RecipeBookTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MVVM_RecipeBookTheme {
 
-                RecipeBookApp()
-
-//                ScreenRecipe(recipe = RecipeData().loadRecipe(LocalContext.current))
+               RecipeBookApp {
+                   val recipeBookViewModel: RecipeBookViewModel = viewModel()
+                   RecipeBookNavigation(recipeBookViewModel)
+               }
 
             }
         }
     }
 }
 @Composable
-fun RecipeBookApp() {
+fun RecipeBookApp(content: @Composable () -> Unit) {
 
-//    val recipeList = viewModel<RecipeViewModel>().recipeList.collectAsState().value
+    MVVM_RecipeBookTheme() {
+        content()
+    }
 
-    ScreenAddEditRecipe( recipe = RecipeData().loadRecipe(LocalContext.current) )
 }
 
 @Preview(showBackground = true)

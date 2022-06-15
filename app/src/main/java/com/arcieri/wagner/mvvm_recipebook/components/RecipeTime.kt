@@ -47,21 +47,27 @@ fun RecipeTime(recipe: Recipe) {
 
 
 
+        val recipeTimeNullString = " add time"
         Text(
             fontSize = 12.sp,
             fontWeight = FontWeight.ExtraBold,
             color = Color(0xFF7A7A7A),
             text =
-            if (recipeHours == 0) {
-                " ${recipeMinutes}min"
+            if (recipe.recipeTime == null || recipe.recipeTime == 0) {
+                recipeTimeNullString
             } else {
-                if (recipeMinutes == 0) {
-                    " ${recipeHours}h"
+                if (recipeHours == 0) {
+                    " ${recipeMinutes}min"
                 } else {
-                    " ${recipeHours}h${recipeMinutes}min"
-                }
+                    if (recipeMinutes == 0) {
+                        " ${recipeHours}h"
+                    } else {
+                        " ${recipeHours}h${recipeMinutes}min"
+                    }
 
+                }
             }
+
         )
     }
 

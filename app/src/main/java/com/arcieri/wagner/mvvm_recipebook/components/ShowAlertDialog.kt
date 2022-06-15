@@ -33,8 +33,8 @@ fun ShowAlertDialog(
     titleWeight: FontWeight = FontWeight.Bold,
     titleColor: Color = Color(0xFF6200EE),
     defaultBottomBar: Boolean,
-    dialogContent: @Composable () -> Unit,
-    bottomBar: @Composable () -> Unit = { }
+    bottomBar: @Composable () -> Unit = { },
+    dialogContent: @Composable () -> Unit
 ) {
 
     if(isDialogOpen.value) {
@@ -94,11 +94,20 @@ fun ShowAlertDialog(
                         horizontalArrangement = Arrangement.Center
                     ) {
 
+                        bottomBar.invoke()
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+
                         if (defaultBottomBar) {
                             DefaultButton(isDialogOpen)
                         }
-
-                        bottomBar.invoke()
                     }
 
                 }

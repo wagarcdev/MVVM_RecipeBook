@@ -58,16 +58,29 @@ import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.components.*
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import kotlin.math.floor
 
 
 @Composable
-fun ScreenAddEditRecipe(recipe: Recipe) {
+fun ScreenAddEditRecipe(
+    recipeBookViewModel: RecipeBookViewModel,
+    recipeName: String?
+) {
 
-    val recipeDraft: Recipe = recipe
+    val recipeDraft: Recipe =
+        if (recipeName != "NEW") {
+            recipeBookViewModel.recipeList.collectAsState().value.filter { recipe -> recipe.name == recipeName  }[0]
+        } else {
+            Recipe(name = "NEW RECIPE")
+        }
+
 
     val itemPadding = 5.dp
+
+
 
 
 
@@ -76,7 +89,7 @@ fun ScreenAddEditRecipe(recipe: Recipe) {
         contentPadding = PaddingValues(top = 10.dp, bottom = 10.dp)
     ) {
 
-        item { EditTitleRow(itemPadding, recipeDraft) }
+        item { EditTitleRow(recipeBookViewModel ,itemPadding, recipeDraft) }
 
         item { ImageSelector(recipeDraft) }
 
@@ -97,9 +110,15 @@ fun ScreenAddEditRecipe(recipe: Recipe) {
  * */
 @Composable
 private fun EditTitleRow(
+    recipeBookViewModel: RecipeBookViewModel,
     itemPadding: Dp,
     recipeDraft: Recipe
 ) {
+
+    val recipeDraftTitle = remember { mutableStateOf(recipeDraft.name) }
+    val coroutineScope = rememberCoroutineScope()
+
+
     Row(
         modifier = Modifier
             .padding(start = 15.dp, top = 10.dp, bottom = 10.dp, end = 20.dp)
@@ -116,8 +135,7 @@ private fun EditTitleRow(
                     .height(50.dp)
                     .fillMaxWidth(0.25f)
                     .clickable {
-//                        navController.popBackStack()
-                        /* TODO cancel all changes */
+                        recipeBookViewModel.navHostController.popBackStack()
                     },
                 elevation = 4.dp,
                 shape = RoundedCornerShape(10.dp),
@@ -204,11 +222,115 @@ private fun EditTitleRow(
 
 
             val isDialogOpen = remember { mutableStateOf(false)}
+            val recipeDraftTime = remember { mutableStateOf(recipeDraft.recipeTime) }
+
+            val sizeScale = 40.dp
+
+            val recipeMinutes = remember { mutableStateOf( recipeDraftTime.value ) }
+            val recipeHours = remember { mutableStateOf(0) }
+
+            LaunchedEffect(key1 = recipeMinutes ) {
+                if (recipeMinutes.value >= 60) {
+                    recipeHours.value = recipeMinutes.value / 60
+                    recipeMinutes.value = recipeMinutes.value%60
+                }
+            }
+
+            /**
+             *
+             *    TODO
+             *
+             *  Adjust hours and minutes incrementation in separated variables,
+             *  then increment recipeDraftTime
+             *
+             *  */
 
             ShowAlertDialog(
                 isDialogOpen = isDialogOpen,
-                title = "Recipe Time",
-                dialogContent = { EditTimeDialogContent(sizeScale = 40.dp, recipe = recipeDraft) },
+                title = "Recipe Preparation Time",
+                dialogContent = {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .size(sizeScale),
+                            painter = painterResource(id = R.drawable.ic_clock),
+                            contentDescription = "Tempo de Preparo ",
+                            tint = Color(0xFF7A7A7A)
+                        )
+                    }
+
+                    //Hours
+                    VerticalNumberPicker(
+                        width = sizeScale,
+                        max = 99,
+                        default = recipeDraftTime.value.div(60),
+                        onValueChange = {
+                            coroutineScope.launch(Dispatchers.Default) {
+//                                recipeHours.value = recipeHours.value.plus(it)
+                                recipeHours.value = it
+                                recipeDraftTime.value = (recipeHours.value*60)+(recipeMinutes.value)
+                            }
+                        }
+                    )
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "Hour", fontSize = (sizeScale.value / 2).sp)
+                    }
+
+                    //Minutes
+                    VerticalNumberPicker(
+                        width = sizeScale,
+                        max = 60,
+                        default = recipeDraftTime.value.rem(60),
+                        onValueChange = {
+                            coroutineScope.launch(Dispatchers.Default) {
+//                                recipeMinutes.value = recipeMinutes.value.plus(it)
+                                recipeMinutes.value = it
+                                recipeDraftTime.value = (recipeHours.value*60)+(recipeMinutes.value)
+                            }
+
+                        }
+                    )
+
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "min", fontSize = (sizeScale.value / 2).sp)
+                    }
+                },
+//                bottomBar = {
+//                    Column() {
+//                        Row() {
+//
+//                        }
+//                        Row() {
+//                            Button(
+//                                onClick = {
+//                                    isDialogOpen.value = false
+//                                },
+//                                modifier = Modifier
+//                                    .fillMaxWidth(0.5f)
+//                                    .height(50.dp)
+//                                    .padding(10.dp),
+//                                shape = RoundedCornerShape(5.dp),
+//                                colors = ButtonDefaults.buttonColors(Purple500)
+//                            ) {
+//                                Text(
+//                                    text = "Close",
+//                                    color = Color.White,
+//                                    fontSize = 12.sp
+//                                )
+//                            }
+//                        }
+//                    }
+//
+//                },
                 defaultBottomBar = true
             )
 
@@ -227,7 +349,68 @@ private fun EditTitleRow(
 
                 )
             ) {
-                RecipeTime(recipeDraft)
+
+
+
+
+                Row(modifier = Modifier
+                    .height(25.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Icon(
+                        modifier = Modifier
+                            .height(20.dp),
+                        painter = painterResource(id = R.drawable.ic_clock),
+                        contentDescription = "Tempo de Preparo ",
+                        tint = Color(0xFF7A7A7A)
+                    )
+
+
+
+                    val recipeTimeNullString = " add time"
+
+
+                    AnimatedVisibility(
+                        visible = recipeDraftTime.value == 0,
+                        enter = EnterTransition.None,
+                        exit = ExitTransition.None
+                    ) {
+                        Text(
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color(0xFF7A7A7A),
+                            text = recipeTimeNullString
+                        )
+                    }
+
+                    AnimatedVisibility(
+                        visible = recipeDraftTime.value != 0,
+                        enter = EnterTransition.None,
+                        exit = ExitTransition.None
+                    ) {
+                        Text(
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color(0xFF7A7A7A),
+                            text =
+                            if (recipeDraftTime.value < 60) {
+                                " ${recipeDraftTime.value}min"
+                            } else {
+                                if ((recipeDraftTime.value%60) == 0) {
+                                    " ${recipeDraftTime.value/60}h"
+                                } else {
+                                    " ${recipeDraftTime.value/60}h${recipeDraftTime.value%60}min"
+                                }
+
+                            }
+
+                        )
+                    }
+
+
+                }
             }
         }
 
@@ -238,10 +421,27 @@ private fun EditTitleRow(
 
             val isDialogOpen = remember { mutableStateOf(false)}
 
+
             ShowAlertDialog(
                 isDialogOpen = isDialogOpen,
                 title = "Recipe Name",
-                dialogContent = { EditTitleDialogContent(itemPadding, recipeDraft) },
+                dialogContent = {
+                    RecipeInputText(
+                        modifier = Modifier
+                            .padding(itemPadding),
+                        text = recipeDraftTitle.value,
+                        label = "Recipe Title",
+                        textAlignment = TextAlign.End,
+                        textFontSize = 22.sp,
+                        labelFontSize = 16.sp,
+                        maxLines = 4,
+                        onTextChange = {
+                            coroutineScope.launch(Dispatchers.Default) {
+                                recipeDraftTitle.value = it
+                            }
+                        }
+                    )
+                },
                 defaultBottomBar = true
             )
 
@@ -267,7 +467,7 @@ private fun EditTitleRow(
                 ) {
 
                     Text(
-                        text = recipeDraft.name!!,
+                        text = recipeDraftTitle.value,
                         color = Color(0xFF000000),
                         fontSize = 22.sp,
                         fontWeight = FontWeight.ExtraBold,
@@ -287,18 +487,20 @@ private fun EditTitleRow(
 @Composable
 private fun EditTitleDialogContent(
     itemPadding: Dp,
-    recipe: Recipe
+    recipeTitle: String
 ) {
+    val recipeDraftTitle = remember { mutableStateOf(recipeTitle) }
+
     RecipeInputText(
         modifier = Modifier
             .padding(itemPadding),
-        text = recipe.name,
+        text = recipeDraftTitle.value,
         label = "Recipe Title",
         textAlignment = TextAlign.End,
         textFontSize = 22.sp,
         labelFontSize = 16.sp,
         maxLines = 4,
-        onTextChange = {}
+        onTextChange = { recipeDraftTitle.value = it }
     )
 }
 
@@ -315,10 +517,7 @@ fun ImageSelector(recipeDraft: Recipe) {
 
     val noImage = BitmapFactory.decodeResource(LocalContext.current.resources, R.drawable.no_image)
 
-    if (recipeDraftImage.value == null) {
 
-        recipeDraftImage.value = noImage
-    }
 
 
     val context = LocalContext.current
@@ -385,19 +584,41 @@ fun ImageSelector(recipeDraft: Recipe) {
                 elevation = 5.dp,
                 border = BorderStroke(0.dp, Color(0x00000000))
             ) {
-                Image(
-                    modifier = Modifier
-                        .padding(0.dp)
-                        .fillMaxWidth(),
-                    contentScale =
-                    if (recipeDraftImage.value==noImage) {
-                        ContentScale.Fit
-                    } else {
-                        ContentScale.FillWidth
-                    },
-                    bitmap = recipeDraftImage.value!!.asImageBitmap(),
-                    contentDescription = "Recipe Image"
-                )
+
+                Row() {
+                    Image(
+                        modifier = Modifier
+                            .padding(0.dp)
+                            .fillMaxWidth(),
+                        contentScale = ContentScale.Fit,
+                        bitmap = noImage.asImageBitmap(),
+                        contentDescription = "Recipe Image"
+                    )
+                }
+
+                Column() {
+
+                    AnimatedVisibility(
+                        visible = (recipeDraftImage.value != null),
+                        enter = EnterTransition.None,
+                        exit = ExitTransition.None
+                    ) {
+                        if (recipeDraftImage.value != null) {
+                            Image(
+                                modifier = Modifier
+                                    .padding(0.dp)
+                                    .fillMaxWidth(),
+                                contentScale = ContentScale.FillWidth,
+                                bitmap = recipeDraftImage.value!!.asImageBitmap(),
+                                contentDescription = "Recipe Image"
+                            )
+                        }
+
+                    }
+                }
+
+
+
             }
         }
 
@@ -495,13 +716,15 @@ fun ImageSelector(recipeDraft: Recipe) {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Bottom
                 ) {
+
                     AnimatedVisibility(
-                        visible = (recipeDraftImage.value!=noImage),
+                        visible = (recipeDraftImage.value != null),
                         enter = EnterTransition.None,
                         exit = ExitTransition.None
                     ) {
 
                         val coroutineScope = rememberCoroutineScope()
+
 
 
                         /** DELETE Image Button*/
@@ -516,8 +739,11 @@ fun ImageSelector(recipeDraft: Recipe) {
                                 color = Color(0xFFFF2929)
                             ),
                             onClick = {
-                                    recipeDraftImage.value = noImage
-                                    recipeDraft.image = null
+                                coroutineScope.launch(Dispatchers.Default) {
+                                    recipeDraftImage.value = null
+                                }
+
+//                                    recipeDraft.image = null
 
                             }
                         ) {
@@ -558,7 +784,7 @@ fun ImageSelector(recipeDraft: Recipe) {
                             .padding(horizontal = 6.dp)
                             .size(60.dp),
                         backgroundColor =
-                        if (recipeDraftImage.value == noImage) {
+                        if (recipeDraftImage.value == null) {
                             Color(0x00000000)
                         } else {
                             Color(0x1A000000)
@@ -567,7 +793,7 @@ fun ImageSelector(recipeDraft: Recipe) {
                         border = BorderStroke(
                             2.dp,
                             color =
-                            if (recipeDraftImage.value == noImage) {
+                            if (recipeDraftImage.value == null) {
                                 Color(0xFF002F9C)
                             } else {
                                 Color(0xFFFCFCFC)
@@ -587,7 +813,7 @@ fun ImageSelector(recipeDraft: Recipe) {
                                     .size(35.dp),
                                 painter =
                                 painterResource(
-                                    if (recipeDraftImage.value == noImage) {
+                                    if (recipeDraftImage.value == null) {
                                         R.drawable.ic_add_image
                                     } else {
                                         R.drawable.ic_change_arrows
@@ -595,7 +821,7 @@ fun ImageSelector(recipeDraft: Recipe) {
                                 ),
                                 contentDescription = "Change Image Button",
                                 tint =
-                                if (recipeDraftImage.value == noImage) {
+                                if (recipeDraftImage.value == null) {
                                     Color(0xFF002F9C)
                                 } else {
                                     Color(0xFFFCFCFC)
@@ -701,7 +927,7 @@ private fun EditIngredientsSection(
             Text(
                 modifier = Modifier
                     .padding(horizontal = 14.dp),
-                text = "Ingredientes",
+                text = "Ingredients",
                 color = Color(0xFF000000),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -730,10 +956,14 @@ private fun EditIngredientsSection(
 
         }
 
-        recipeDraft.ingredients?.forEach { ingredient ->
+        recipeDraft.ingredients.forEach { ingredient ->
             ingredient.adjustPortion()
 
-            AnimatedVisibility(visible = isVisible) {
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = EnterTransition.None,
+                exit = ExitTransition.None
+            ) {
                 AnimatedCardView(
                     isNotSelectedContent = { IngredientIsNotSelectedContent(ingredient) },
                     isSelectedContent = { IngredientIsSelectedContent(ingredient, onTextQuantityChange = {}) },
@@ -741,27 +971,54 @@ private fun EditIngredientsSection(
                     fillMaxWidthFloat = 0.9f
                 )
             }
-            AnimatedVisibility(visible = isVisible) {
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = EnterTransition.None,
+                exit = ExitTransition.None
+            ) {
                 Spacer(modifier = Modifier.padding(itemPadding))
             }
         }
 
 
-        AnimatedVisibility(visible = isVisible) {
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None) {
             Spacer(modifier = Modifier.padding(itemPadding))
         }
-        AnimatedVisibility(visible = isVisible) {
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None
+        ) {
+            
+
+            
             AddNewItemButtonCard(
-                buttonText = "ADD NEW INGREDIENT",
+                buttonText = "Ingredient",
                 minHeight = 60.dp,
-                onClick = {},
+                onClick = {
+                          
+                },
                 fillMaxWidthFloat = 0.9f
             )
+            
+            
+            
         }
-        AnimatedVisibility(visible = isVisible) {
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None
+        ) {
             Spacer(modifier = Modifier.padding(itemPadding))
         }
-        AnimatedVisibility(visible = isVisible) {
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None
+        ) {
             Spacer(modifier = Modifier.padding(itemPadding))
         }
 
@@ -807,7 +1064,7 @@ private fun EditMethodsSection(
             Text(
                 modifier = Modifier
                     .padding(horizontal = 14.dp),
-                text = "Modo de Preparo",
+                text = "Preparation Methods",
                 color = Color(0xFF000000),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -833,9 +1090,20 @@ private fun EditMethodsSection(
             )
         }
 
-        recipeDraft.recipeMethods?.forEachIndexed { index, method ->
+//        val recipeDraftMethods = emptyList<String>().toMutableList()
+        val recipeDraftMethods = remember { mutableListOf<String>() }
 
-            AnimatedVisibility(visible = isVisible) {
+        recipeDraft.recipeMethods.forEach { method ->
+            recipeDraftMethods.add(method)
+        }
+
+        recipeDraftMethods.forEachIndexed { index, method ->
+
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = EnterTransition.None,
+                exit = ExitTransition.None
+            ) {
                 AnimatedCardView(
                     isNotSelectedContent = { MethodIsNotSelectedContent(itemPadding, index, method) },
                     isSelectedContent = { MethodIsSelectedContent(itemPadding, method) },
@@ -844,7 +1112,11 @@ private fun EditMethodsSection(
                 )
             }
 
-            AnimatedVisibility(visible = isVisible) {
+            AnimatedVisibility(
+                visible = isVisible,
+                enter = EnterTransition.None,
+                exit = ExitTransition.None
+            ) {
                 Spacer(modifier = Modifier.padding(itemPadding))
             }
 
@@ -853,15 +1125,66 @@ private fun EditMethodsSection(
 
         }
 
-        AnimatedVisibility(visible = isVisible) {
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None
+        ) {
             Spacer(modifier = Modifier.padding(itemPadding))
         }
 
-        AnimatedVisibility(visible = isVisible) {
+        AnimatedVisibility(
+            visible = isVisible,
+            enter = EnterTransition.None,
+            exit = ExitTransition.None
+        ) {
+
+            val isDialogOpen = remember { mutableStateOf(false) }
+            val newMethod = remember { mutableStateOf("") }
+            val coroutineScope = rememberCoroutineScope()
+
+            ShowAlertDialog(
+                title = "Add method",
+                isDialogOpen = isDialogOpen,
+                dialogContent = {
+                    Surface() {
+                        Row() {
+                            RecipeInputText(
+                                text = newMethod.value,
+                                label = "new method",
+                                onTextChange = { newMethod.value = it })
+                        }
+                    }
+                },
+                defaultBottomBar = true,
+                bottomBar = {
+                    Button(
+                        onClick = {
+                            coroutineScope.launch(Dispatchers.Default) {
+                                recipeDraftMethods.add(newMethod.value)
+                            }
+                            isDialogOpen.value = false
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .height(50.dp)
+                            .padding(10.dp),
+                        shape = RoundedCornerShape(5.dp),
+                        colors = ButtonDefaults.buttonColors(Color(0xFF0022A3))
+                    ) {
+                        Text(
+                            text = "ADD Method",
+                            color = Color(0xFFFFFFFF),
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+            )
+
             AddNewItemButtonCard(
-                buttonText = "ADD NEW METHOD",
+                buttonText = "Method",
                 minHeight = 70.dp,
-                onClick = {},
+                onClick = { isDialogOpen.value = true },
                 fillMaxWidthFloat = 0.9f
             )
         }
@@ -910,13 +1233,15 @@ private fun AddNewItemButtonCard(
         ) {
             Icon(
                 modifier = Modifier
-                    .padding(horizontal = 35.dp),
+                    .padding(start = 35.dp, end = 20.dp)
+                    .size(35.dp),
                 imageVector = Icons.Rounded.AddCircle,
                 contentDescription = "Add Button Icon",
                 tint = Color(0xFF0022A3)
             )
             Text(
                 text = buttonText,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 fontStyle = FontStyle.Italic,
                 color = Color(0xFF000000)
@@ -971,51 +1296,6 @@ private fun AddNewMethodTextFieldRow(context: Context) {
     }
 }
 
-@Composable
-private fun EditTimeDialogContent(
-    sizeScale: Dp,
-    recipe: Recipe
-) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Icon(
-            modifier = Modifier
-                .size(sizeScale),
-            painter = painterResource(id = R.drawable.ic_clock),
-            contentDescription = "Tempo de Preparo ",
-            tint = Color(0xFF7A7A7A)
-        )
-    }
-
-    //Hours
-    VerticalNumberPicker(
-        width = sizeScale,
-        max = 99,
-        default = recipe.recipeTime?.div(60) ?: 0
-    )
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "Hour", fontSize = (sizeScale.value / 2).sp)
-    }
-
-    //Minutes
-    VerticalNumberPicker(
-        width = sizeScale,
-        max = 60,
-        default = recipe.recipeTime?.rem(60) ?: 0
-    )
-
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "min", fontSize = (sizeScale.value / 2).sp)
-    }
-}
 /**   Input and Buttons  */
 
 
@@ -1152,7 +1432,7 @@ private fun IngredientIsSelectedContent(
                                     horizontalAlignment = Alignment.End
                                 ) {
 
-                                    var df = DecimalFormat("##")
+                                    val df = DecimalFormat("##")
 
 
                                     Text(
@@ -1403,9 +1683,9 @@ private fun MethodIsSelectedContent(
 @Composable
 fun ScreenAddEditRecipePreview() {
 
-    val recipeList = viewModel<RecipeViewModel>().recipeList.collectAsState().value
+    val recipeList = viewModel<RecipeBookViewModel>().recipeList.collectAsState().value
 
-    ScreenAddEditRecipe( recipe = recipeList[0] )
+   // ScreenAddEditRecipe( recipe = recipeList[0] )
 
 
 

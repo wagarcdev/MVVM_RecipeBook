@@ -34,6 +34,7 @@ fun RecipeInputText(
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
+
     TextField(
         value = text,
         onValueChange = onTextChange,
@@ -59,6 +60,7 @@ fun RecipeInputText(
         }),
         modifier = modifier,
         textStyle = TextStyle(textAlign = textAlignment, fontSize = textFontSize),
+        readOnly = false
     )
 
 

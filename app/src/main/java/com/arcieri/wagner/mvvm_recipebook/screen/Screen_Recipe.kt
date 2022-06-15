@@ -34,12 +34,16 @@ import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.components.*
 import com.arcieri.wagner.mvvm_recipebook.data.CatalogData
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ScreenRecipe(recipe: Recipe) {
+fun ScreenRecipe(
+    recipeBookViewModel: RecipeBookViewModel,
+    recipeName: String?
+) {
+
+    val recipe = recipeBookViewModel.recipeList.collectAsState().value.filter { recipe -> recipe.name == recipeName  }[0]
 
 
 
@@ -169,6 +173,8 @@ private fun RecipeMainContent(recipe: Recipe) {
             item { RecipeMethods(recipe) }
 
             item { Divider(modifier = Modifier.height(100.dp), color = Color(0x00FFFFFF)) }
+
+
 
         }
     }
@@ -479,5 +485,5 @@ private fun RecipeMethods(recipe: Recipe) {
 @Preview
 @Composable
 fun ScreenRecipePreview() {
-    ScreenRecipe(recipe = RecipeData().loadRecipe(LocalContext.current))
+ //   ScreenRecipe(recipe = RecipeData().loadRecipe(LocalContext.current))
 }

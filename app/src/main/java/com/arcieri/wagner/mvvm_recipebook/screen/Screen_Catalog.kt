@@ -8,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -16,6 +15,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,28 +26,40 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.components.RecipeTimeNameRow
-import com.arcieri.wagner.mvvm_recipebook.data.CatalogData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ScreenCatalog(recipes: List<Recipe>) {
+fun ScreenCatalog(recipeBookViewModel: RecipeBookViewModel) {
+
+    val coroutineScope = rememberCoroutineScope()
+
 
     Scaffold() {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(recipes) { recipe ->
 
-                RecipeCatalogButton(
-                    recipe = recipe,
-                    onClick = {
-                        /*TODO*/
+            coroutineScope.launch(Dispatchers.Default) {
+                recipeBookViewModel.recipeList.collect() { recipes ->
+                for (recipe in recipes) {
+                    item{
+                        RecipeCatalogButton(
+                            recipe = recipe,
+                            onClick = {
+                                /*TODO*/
+                            })
                     }
-                )
-            }
+                }
+
+            } }
+
+
 
             item {Divider(Modifier.height(20.dp), Color(0x00000000))}
         }
@@ -153,12 +165,9 @@ fun RecipeCatalogButton(
 @Composable
 fun ScreenCatalogPreview() {
 
-    val context = LocalContext.current
-
-    val recipeList = CatalogData().loadCatalog(context)
+   val recipeBookViewModel: RecipeBookViewModel = viewModel()
 
 
-
-    ScreenCatalog(recipes = recipeList)
+    ScreenCatalog(recipeBookViewModel)
 
 }

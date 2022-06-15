@@ -5,7 +5,7 @@ import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface RecipeDatabaseDAO {
+interface RecipeBookDatabaseDAO {
 
     @Query("SELECT * from recipe_tbl")
     fun getRecipes(): Flow<List<Recipe>>

@@ -1,45 +1,45 @@
 package com.arcieri.wagner.mvvm_recipebook.screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import androidx.navigation.NavController
+import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
 import com.arcieri.wagner.mvvm_recipebook.repository.RecipeRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class RecipeViewModel @Inject constructor (private val repository: RecipeRepository): ViewModel() {
 
-    //var recipe = RecipeData().loadRecipe(context)
+    lateinit var navController: NavController
 
-    private var _recipeList = MutableStateFlow<List<Recipe>>(emptyList())
-    val recipeList = _recipeList.asStateFlow()
+    private var _ingredientList = MutableStateFlow<List<Ingredient>>(emptyList())
+    val ingredientList = _ingredientList.asStateFlow()
+
+    private var _methodList = MutableStateFlow<List<String>>(emptyList())
+    val methodList = _methodList.asStateFlow()
 
     init {
-//         recipeList.addAll(RecipeData().loadRecipe(context))
+        viewModelScope.launch(Dispatchers.Default) {
 
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getAllRecipes().distinctUntilChanged().collect { listOfRecipes ->
-                if (listOfRecipes.isNullOrEmpty()) {
-                    Log.d("CATALOG", "EMPTY LIST OF RECIPES ")
-                } else {
-                    _recipeList.value = listOfRecipes
-                }
-
-            }
         }
     }
 
-    suspend fun addRecipe(recipe: Recipe) = viewModelScope.launch { repository.addRecipe(recipe) }
-    suspend fun updateRecipe(recipe: Recipe) = viewModelScope.launch { repository.updateRecipe(recipe) }
-    suspend fun removeRecipe(recipe: Recipe) = viewModelScope.launch { repository.deleteRecipe(recipe) }
-    suspend fun removeAllRecipes() = viewModelScope.launch { repository.deleteAllRecipes() }
+//    name
+//
+//    image
+//
+//    recipeMethods
+//
+//    ingredients
+//
+//    portions
+//
+//    recipeTime
+//
+//    baseRecipes
 
 
 

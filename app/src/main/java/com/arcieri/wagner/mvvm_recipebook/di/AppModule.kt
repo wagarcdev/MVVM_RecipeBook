@@ -3,7 +3,7 @@ package com.arcieri.wagner.mvvm_recipebook.di
 import android.content.Context
 import androidx.room.Room
 import com.arcieri.wagner.mvvm_recipebook.data.RecipeDatabase
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeDatabaseDAO
+import com.arcieri.wagner.mvvm_recipebook.data.RecipeBookDatabaseDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesRecipeDAO(recipeDatabase: RecipeDatabase): RecipeDatabaseDAO = recipeDatabase.recipeDAO()
+    fun providesRecipeDAO(recipeDatabase: RecipeDatabase): RecipeBookDatabaseDAO = recipeDatabase.recipeDAO()
 
     @Singleton
     @Provides

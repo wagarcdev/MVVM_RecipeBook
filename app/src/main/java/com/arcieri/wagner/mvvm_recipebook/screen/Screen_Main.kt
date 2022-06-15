@@ -21,12 +21,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.components.RecipeTime
+import com.arcieri.wagner.mvvm_recipebook.navigation.RecipeBookScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ScreenMain() {
+fun ScreenMain(recipeBookViewModel: RecipeBookViewModel) {
 
     Scaffold() {
         Column(
@@ -48,10 +49,10 @@ fun ScreenMain() {
 
             MenuButton(
                 imageID = R.drawable.ic_chef_book,
-                imageDescription = "My Recipes Icons",
+                imageDescription = "My Recipes Icon",
                 text = "My Recipes",
                 onClick = {
-                    /*TODO*/
+                    recipeBookViewModel.navHostController.navigate(route = RecipeBookScreens.CatalogScreen.name)
                 }
         )
 
@@ -60,7 +61,7 @@ fun ScreenMain() {
                 imageDescription = "New Recipe Button",
                 text = "NEW Recipe",
                 onClick = {
-                    /*TODO*/
+                    recipeBookViewModel.navHostController.navigate(route = RecipeBookScreens.AddEditRecipeScreen.name+"/NEW")
                 }
             )
         }
@@ -136,6 +137,8 @@ fun MenuButton(
 @Composable
 fun ScreenMainPreview() {
 
-    ScreenMain()
+    val recipeBookViewModel: RecipeBookViewModel = viewModel()
+
+    ScreenMain(recipeBookViewModel)
 
 }
