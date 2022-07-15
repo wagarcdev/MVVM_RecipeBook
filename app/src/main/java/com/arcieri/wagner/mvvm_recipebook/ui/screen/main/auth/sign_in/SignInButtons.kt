@@ -1,5 +1,6 @@
 package com.arcieri.wagner.mvvm_recipebook.ui.screen.main.auth.sign_in
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,20 +9,29 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.auth.SignInGoogleViewModel
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.components.main_menu_content.main_menu_buttons.MainMenuButton
 import com.arcieri.wagner.mvvm_recipebook.ui.theme.*
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignInButtons(wannaRegister: MutableState<Boolean>) {
+fun SignInButtons(
+    signInGoogleViewModel: SignInGoogleViewModel,
+    wannaRegister: MutableState<Boolean>,
+    onClick: () -> Unit,
+    isError: Boolean = false
+) {
 
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
@@ -85,15 +95,22 @@ fun SignInButtons(wannaRegister: MutableState<Boolean>) {
 
 
             item {
+
+                val state = signInGoogleViewModel.loading.observeAsState()
+                val isLoadingState = remember { mutableStateOf(state.value) }
+
+                /** Sign In Google Button*/
                 MainMenuButton(
                     buttonFillMaxWidthFloat = buttonFillWidthFloat,
                     buttonVerticalPaddingDp = 15.dp,
+                    isLoading = isLoadingState.value,
                     iconID = R.drawable.ic_google_logo,
-                    text = "Sign In With Google",
-                    iconDescription = "Recipes Icon",
+                    text = "Sign In using Google",
+                    iconDescription = "Google Icon",
                     textAlign = TextAlign.Center,
                     textFillMaxWidthFloat = 0.85f,
                     fontColor = RB_Black,
+                    fontWeight = FontWeight.Normal,
                     borderStroke = BorderStroke(0.dp, Color.Transparent),
                     leftGradientColor = RB_White,
                     centerLeftGradientColor = RB_White,
@@ -101,9 +118,26 @@ fun SignInButtons(wannaRegister: MutableState<Boolean>) {
                     centerRightGradientColor = RB_White,
                     rightGradientColor = RB_White,
                     onClick = {
+                        signInGoogleViewModel.showLoading()
+                        onClick.invoke()
                         /**   TODO onClick    */
                     }
                 )
+
+                when {
+                    isError -> {
+                        isError.let {
+
+                            Toast.makeText(
+                                LocalContext.current,
+                                stringResource(R.string.auth_error_msg),
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            signInGoogleViewModel.hideLoading()
+                        }
+                    }
+                }
             }
 
 
@@ -184,8 +218,8 @@ fun SignInButtons(wannaRegister: MutableState<Boolean>) {
                         buttonVerticalPaddingDp = 20.dp,
                         buttonFillMaxWidthFloat = buttonFillWidthFloat,
                         iconID = R.drawable.ic_log_in,
-                        iconDescription = "Log In Button",
-                        text = "Log In",
+                        iconDescription = "Sign In Button",
+                        text = "Sign In",
                         textAlign = TextAlign.Center,
                         textFillMaxWidthFloat = 0.85f,
                         borderStroke = BorderStroke(0.dp, Color.Transparent),

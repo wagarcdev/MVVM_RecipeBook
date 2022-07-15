@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +28,7 @@ fun MainMenuButton(
     buttonFillMaxWidthFloat: Float = 0.8f,
     buttonVerticalPaddingDp: Dp = 0.dp,
     textFillMaxWidthFloat: Float = 0.90f,
+    isLoading: Boolean? = false,
     showIcon: Boolean = true,
     iconID: Int,
     iconSize: Dp = 30.dp,
@@ -37,6 +39,7 @@ fun MainMenuButton(
     textAlign: TextAlign = TextAlign.Center,
     fontColor: Color = Color(0xFFFFFFFF),
     fontSize: TextUnit = 16.sp,
+    fontWeight: FontWeight = FontWeight.Bold,
     borderStroke: BorderStroke = BorderStroke(2.dp, Color(0xFF1F1F1F)),
     cornerDp: Dp = 50.dp,
     leftGradientColor: Color = Color(0xFF000000),
@@ -89,16 +92,22 @@ fun MainMenuButton(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (showIcon) {
-                    Image(
-                        modifier = Modifier
-                            .padding(start = 4.dp)
-                            .size(iconSize),
-                        painter = painterResource(
-                            id = iconID
-                        ),
-                        contentDescription = iconDescription,
-                    )
+
+
+                if (isLoading == true) {
+                    CircularProgressIndicator(Modifier.size(iconSize))
+                } else {
+                    if (showIcon) {
+                        Image(
+                            modifier = Modifier
+                                .padding(start = 4.dp)
+                                .size(iconSize),
+                            painter = painterResource(
+                                id = iconID
+                            ),
+                            contentDescription = iconDescription,
+                        )
+                    }
                 }
 
             }
@@ -116,7 +125,7 @@ fun MainMenuButton(
                         .fillMaxWidth(textFillMaxWidthFloat),
                     text = text,
                     fontSize = fontSize,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = fontWeight,
                     color = fontColor,
                     maxLines = 1,
                     textAlign = textAlign
