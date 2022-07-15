@@ -110,7 +110,7 @@ fun SignInButtons(
                     textAlign = TextAlign.Center,
                     textFillMaxWidthFloat = 0.85f,
                     fontColor = RB_Black,
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.SemiBold,
                     borderStroke = BorderStroke(0.dp, Color.Transparent),
                     leftGradientColor = RB_White,
                     centerLeftGradientColor = RB_White,
@@ -120,7 +120,6 @@ fun SignInButtons(
                     onClick = {
                         signInGoogleViewModel.showLoading()
                         onClick.invoke()
-                        /**   TODO onClick    */
                     }
                 )
 
