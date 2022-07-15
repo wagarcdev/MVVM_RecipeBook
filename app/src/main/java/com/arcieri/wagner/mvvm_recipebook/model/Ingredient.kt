@@ -1,5 +1,7 @@
 package com.arcieri.wagner.mvvm_recipebook.model
 
+import android.os.Parcelable
+
 data class Ingredient(
 
 
@@ -15,7 +17,7 @@ data class Ingredient(
     var textHowToMeasure: String? = null
     ) {
 
-    fun adjustPortion(){
+    fun adjustMeasuringUnits(){
 
         if (!isUnit) {
             if (isLiquid) {

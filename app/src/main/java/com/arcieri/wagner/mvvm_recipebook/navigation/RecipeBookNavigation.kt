@@ -1,60 +1,53 @@
 package com.arcieri.wagner.mvvm_recipebook.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.arcieri.wagner.mvvm_recipebook.screen.*
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.add_edit.ScreenAddEditRecipe
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.catalog.ScreenCatalog
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.detail.ScreenDetail
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.ScreenMain
 
 @Composable
-fun RecipeBookNavigation(recipeBookViewModel: RecipeBookViewModel) {
+fun RecipeBookNavigation() {
 
+    val catalogViewModel: CatalogViewModel = hiltViewModel()
 
-    recipeBookViewModel.navHostController = rememberNavController()
+    catalogViewModel.navHostController = rememberNavController()
 
     NavHost(
-        navController = recipeBookViewModel.navHostController,
-        startDestination = RecipeBookScreens.MainScreen.name
+        navController = catalogViewModel.navHostController,
+        startDestination = Screens.MainScreen.name
     ) {
 
 
 
         /** MainScreen */
-        composable(RecipeBookScreens.MainScreen.name){
-            ScreenMain(recipeBookViewModel = recipeBookViewModel)
+        composable(Screens.MainScreen.name){
+            ScreenMain(catalogViewModel = catalogViewModel)
         }
 
         /** Catalog*/
-        composable(RecipeBookScreens.CatalogScreen.name){
-            ScreenCatalog(recipeBookViewModel = recipeBookViewModel)
+        composable(Screens.CatalogScreen.name){
+            ScreenCatalog(catalogViewModel = catalogViewModel)
         }
 
-        /** RecipeScreen */
-        composable(
-            RecipeBookScreens.RecipeScreen.name+"/{recipe}",
-            arguments = listOf(navArgument("recipe") {type = NavType.StringType})
-        ) {
-            navBackStackEntry ->
-
-            ScreenRecipe(
-                recipeBookViewModel = recipeBookViewModel,
-                recipeName = navBackStackEntry.arguments?.getString("recipe")
+        composable(Screens.DetailScreen.name) {
+            ScreenDetail(
+                catalogViewModel = catalogViewModel,
             )
         }
 
         /** AddEditRecipeScreen */
-        composable(
-            RecipeBookScreens.AddEditRecipeScreen.name+"/{recipe}",
-            arguments = listOf(navArgument("recipe") {type = NavType.StringType})
-        ) {
-            navBackStackEntry ->
+        composable(Screens.AddEditRecipeScreen.name) {
 
             ScreenAddEditRecipe(
-                recipeBookViewModel = recipeBookViewModel,
-                recipeName = navBackStackEntry.arguments?.getString("recipe")
+                catalogViewModel = catalogViewModel,
             )
+
         }
 
     }

@@ -1,8 +1,6 @@
 package com.arcieri.wagner.mvvm_recipebook.data
 
 import android.content.Context
-import android.graphics.BitmapFactory
-import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 
@@ -15,7 +13,7 @@ class CatalogData {
 
             Recipe(
                 name = "Limonada",
-                image = BitmapFactory.decodeResource(context.resources, R.drawable.limonada),
+                imageFilepath = "https://github.com/wagarcdev/MVVM_RecipeBook/blob/master/blob_images/limonada-suica.jpeg?raw=true",
                 ingredients = listOf(
                     Ingredient(
                         name = "Limão",
@@ -51,12 +49,13 @@ class CatalogData {
                     "Exprema/Extraia o suco de 1 limão em um copo",
                     "Adicione açúcar ou mel à gosto",
                     "Adicione a água") as MutableList<String>,
-                recipeTime = 5
+                recipeTime = 5,
+                portions = 1
             ),//Recipe
 
             Recipe(
                 name = "Gnocchi",
-                image = BitmapFactory.decodeResource(context.resources, R.drawable.gnocchi),
+                imageFilepath = "https://github.com/wagarcdev/MVVM_RecipeBook/blob/master/blob_images/gnocchi_pomodoro-780x498.jpg?raw=true",
                 baseRecipes = listOf( "Molho de Tomate da Nonna Maria", "Almôndegas" ) as MutableList<String>,
                 ingredients = listOf(
                     Ingredient(
@@ -107,13 +106,14 @@ class CatalogData {
                     "Em uma panela larga e funda coloque água para ferver e, somente quando atingir o ponto máximo de fervura, vá colocando os gnocchi um por um.",
                     "Fique perto da panela porque eles deverão ser retirados a medida em que começarem a flutuar. Retire um por um com uma escumadeira e só acrescentar por cima o molho de sua preferência."
                 ) as MutableList<String>,
-                recipeTime = 70
+                recipeTime = 70,
+                portions = 2
 
             ),//Recipe
 
             Recipe(
                 name = "Molho de Tomate da Nonna Maria",
-                image = BitmapFactory.decodeResource(context.resources, R.drawable.molho),
+                imageFilepath = "https://github.com/wagarcdev/MVVM_RecipeBook/blob/master/blob_images/molho.jpg?raw=true",
                 ingredients = listOf(
                     Ingredient(
                         name = "Tomates maduros (sem sementes)",
@@ -172,7 +172,7 @@ class CatalogData {
 
             Recipe(
                 name = "Almôndegas",
-                image = BitmapFactory.decodeResource(context.resources, R.drawable.almondega),
+                imageFilepath = "https://github.com/wagarcdev/MVVM_RecipeBook/blob/master/blob_images/almondega.webp?raw=true",
                 ingredients = listOf(
                     Ingredient(
                         name = "Carne Moída",
@@ -230,7 +230,8 @@ class CatalogData {
                     "Na mesma panela da almôndega, elimine o excesso de azeite e coloque o molho de tomate, colocando as almôndegas para cozinhar por alguns minutos.",
                     "Em cerca de 15 minutos as almôndegas estarão totalmente cozidas e o prato estará pronto."
                 ) as MutableList<String>,
-                recipeTime = 65
+                recipeTime = 65,
+                portions = 4
 
 
             )

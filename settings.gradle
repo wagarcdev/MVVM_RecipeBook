@@ -10,6 +10,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+
     }
 }
 rootProject.name = "MVVM_RecipeBook"

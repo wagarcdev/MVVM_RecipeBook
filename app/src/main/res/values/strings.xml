@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVVM_RecipeBook</string>
+    <string name="google_cloud_server_client_id" translatable="false">1025710702287-92h753vaqpgtp6f3ic88m1lsko48p8qc.apps.googleusercontent.com</string>
 </resources>

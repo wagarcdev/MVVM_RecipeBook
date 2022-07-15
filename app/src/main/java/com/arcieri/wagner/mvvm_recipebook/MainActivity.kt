@@ -5,9 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.core.view.WindowCompat
 import com.arcieri.wagner.mvvm_recipebook.navigation.RecipeBookNavigation
-import com.arcieri.wagner.mvvm_recipebook.screen.RecipeBookViewModel
 import com.arcieri.wagner.mvvm_recipebook.ui.theme.MVVM_RecipeBookTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,20 +14,44 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MVVM_RecipeBookTheme {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
-               RecipeBookApp {
-                   val recipeBookViewModel: RecipeBookViewModel = viewModel()
-                   RecipeBookNavigation(recipeBookViewModel)
-               }
+
+        /**  TODO
+         *
+         *   - Tabela Nutricional
+         *   - CMV
+         *   - Proporções
+         *   - Calculadora de Lucro
+         *
+         *   Google Cloud Platform - Android ClientID
+         *   1025710702287-92h753vaqpgtp6f3ic88m1lsko48p8qc.apps.googleusercontent.com
+         *
+         * **/
+
+
+        setContent {
+
+            RecipeBookApp {
+
+
+
+
+                RecipeBookNavigation()
 
             }
         }
     }
+
+
 }
+
 @Composable
 fun RecipeBookApp(content: @Composable () -> Unit) {
+
+
+
+
 
     MVVM_RecipeBookTheme() {
         content()

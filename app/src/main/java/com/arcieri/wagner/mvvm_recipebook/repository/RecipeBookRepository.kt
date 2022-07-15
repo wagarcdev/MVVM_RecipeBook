@@ -2,6 +2,7 @@ package com.arcieri.wagner.mvvm_recipebook.repository
 
 import com.arcieri.wagner.mvvm_recipebook.data.RecipeBookDatabaseDAO
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
@@ -18,7 +19,19 @@ class RecipeBookRepository @Inject constructor(private val recipeBookDatabaseDAO
 
     suspend fun deleteAllRecipes() = recipeBookDatabaseDAO.deleteAllRecipes()
 
+    suspend fun getRecipe(recipeId: Long): Recipe = recipeBookDatabaseDAO.getRecipeById(id = recipeId)
+
     fun getAllRecipes(): Flow<List<Recipe>> =
         recipeBookDatabaseDAO.getRecipes().flowOn(Dispatchers.IO).conflate()
+
+    suspend fun getRecipeInfo(recipeId: Long): Resource<Recipe> {
+        val response = try {
+            recipeBookDatabaseDAO.getRecipeById(recipeId)
+        } catch (e: Exception) {
+            return  Resource.Error("An unknown error occurred")
+        }
+        return Resource.Success(response)
+
+    }
 
 }

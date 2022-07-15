@@ -66,9 +66,18 @@ dependencies {
     //Moshi
     def moshi_version = '1.8.0'
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    
+    //Accompanist
+    def accompanist_version = "0.18.0"
+    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+    //insets (for transparent status bar)
+    implementation "com.google.accompanist:accompanist-insets:0.14.0"
 
-//    //Coil
-//    implementation("io.coil-kt:coil-compose:2.1.0")
+    //Coil-Compose
+    implementation("io.coil-kt:coil-compose:2.1.0")
+
+    //GSon
+    implementation 'com.google.code.gson:gson:2.9.0'
 
     //NavController
     def nav_version = "2.4.1"
@@ -86,6 +95,9 @@ dependencies {
     //Hilt-Dagger
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -101,6 +113,11 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1"
+
+
+    // Google play Services AUTH
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
 
 
 
