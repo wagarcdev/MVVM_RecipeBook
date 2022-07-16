@@ -45,7 +45,7 @@ fun MainMenu(
         columnHorizontalAlignment = Alignment.CenterHorizontally,
         columnVerticalArrangement = Arrangement.Bottom ,
         topSpacerTransition = true,
-        topSpacerTransitionHeight = 50.dp,
+        topSpacerTransitionHeight = 100.dp,
         topTransitionTopColor = Color(0x00000000),
         topTransitionMiddleColor = Color(0x33000000),
         topTransitionBottomColor = Color(0xCC000000),
