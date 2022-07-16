@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 fun SignInButtons(
     signInGoogleViewModel: SignInGoogleViewModel,
     wannaRegister: MutableState<Boolean>,
+    forgotPassword: MutableState<Boolean>,
     onClick: () -> Unit,
     isError: Boolean = false
 ) {
@@ -202,9 +203,9 @@ fun SignInButtons(
                             modifier = Modifier
                                 .padding(vertical = 8.dp)
                                 .clickable {
-                                    /**
-                                     * TODO onClick FORGOT PASSWORD
-                                     * */
+                                    coroutineScope.launch {
+                                        forgotPassword.value = true
+                                    }
                                 },
                             text = "Forgot Password?",
                             color = RB_White,

@@ -14,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.arcieri.wagner.mvvm_recipebook.google.GoogleApiContract
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.auth.forgot.ForgotPasswordButtons
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.auth.register.RegisterButtons
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.auth.sign_in.SignInButtons
 import com.google.android.gms.common.api.ApiException
@@ -23,6 +24,7 @@ fun SingInContent(signInGoogleViewModel: SignInGoogleViewModel) {
 
     val coroutineScope = rememberCoroutineScope()
     val wannaRegisterState = remember { mutableStateOf(false) }
+    val forgotPassword = remember { mutableStateOf(false) }
 
     val signInRequestCode = 1
     val context = LocalContext.current
@@ -52,13 +54,14 @@ fun SingInContent(signInGoogleViewModel: SignInGoogleViewModel) {
     AnimatedVisibility(
         modifier = Modifier
             .fillMaxWidth(),
-        visible = wannaRegisterState.value == false,
+        visible = wannaRegisterState.value == false && forgotPassword.value == false,
         enter = EnterTransition.None,
         exit = ExitTransition.None
     ) {
 
         SignInButtons(
             wannaRegister =  wannaRegisterState,
+            forgotPassword = forgotPassword,
             onClick = { authResultLauncher.launch(signInRequestCode) },
             isError = isError.value,
             signInGoogleViewModel = signInGoogleViewModel
@@ -74,6 +77,18 @@ fun SingInContent(signInGoogleViewModel: SignInGoogleViewModel) {
     ) {
         RegisterButtons(wannaRegisterState)
     }
+
+    AnimatedVisibility(
+        modifier = Modifier
+            .fillMaxWidth(),
+        visible = forgotPassword.value == true,
+        enter = EnterTransition.None,
+        exit = ExitTransition.None
+    ) {
+        ForgotPasswordButtons(forgotPassword)
+    }
+
+
 
 }
 
