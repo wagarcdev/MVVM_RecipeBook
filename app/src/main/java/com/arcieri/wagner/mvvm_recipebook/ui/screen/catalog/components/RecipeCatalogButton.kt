@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.widgets.RecipeImageAndInfo
 import com.arcieri.wagner.mvvm_recipebook.ui.theme.RB_White
+import com.arcieri.wagner.mvvm_recipebook.ui.theme.Shapes
 
 @Composable
 fun RecipeCatalogButton(
@@ -20,14 +20,13 @@ fun RecipeCatalogButton(
     onClick: () -> Unit
 ) {
 
-    val cornerDp = 30.dp
 
     Card(
         modifier = Modifier
-            .fillMaxWidth(0.9f)
-            .height(200.dp)
+            .fillMaxWidth(0.95f)
+            .height(160.dp)
             .clickable { onClick.invoke() },
-        shape = RoundedCornerShape(cornerDp),
+        shape = Shapes.medium,
         border = BorderStroke(1.dp, RB_White)
     ) {
         RecipeImageAndInfo(recipe)
@@ -35,7 +34,7 @@ fun RecipeCatalogButton(
 
     Spacer(
         modifier = Modifier
-            .height(8.dp)
+            .height(12.dp)
             .fillMaxWidth()
     )
 }

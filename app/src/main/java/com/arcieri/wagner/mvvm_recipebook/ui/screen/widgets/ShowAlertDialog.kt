@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.components.main_menu_content.main_menu_buttons.MainMenuButton
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.auth.components.main_menu_content.main_menu_buttons.MainMenuButton
 import com.arcieri.wagner.mvvm_recipebook.ui.theme.*
 
 @Composable
@@ -114,9 +114,8 @@ private fun DefaultButton(isDialogOpen: MutableState<Boolean>) {
             centerGradientColor = RB_RedDark,
             centerRightGradientColor = RB_Red,
             rightGradientColor = RB_RedLight,
-            fontColor = RB_White,
-            onClick = { isDialogOpen.value = false }
-        )
+            fontColor = RB_White
+        ) { isDialogOpen.value = false }
     }
 }
 

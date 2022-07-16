@@ -2,7 +2,8 @@ package com.arcieri.wagner.mvvm_recipebook.navigation
 
 enum class Screens {
 
-    MainScreen,
+    AuthScreen,
+    MainMenuScreen,
     DetailScreen,
     CatalogScreen,
     AddEditRecipeScreen;
@@ -11,11 +12,12 @@ enum class Screens {
         fun fromRoute(route: String?): Screens
         = when (route?.substringBefore("/")) {
 
-            MainScreen.name -> MainScreen
+            AuthScreen.name -> AuthScreen
+            MainMenuScreen.name -> MainMenuScreen
             DetailScreen.name -> DetailScreen
             CatalogScreen.name -> CatalogScreen
             AddEditRecipeScreen.name -> AddEditRecipeScreen
-            null -> MainScreen
+            null -> AuthScreen
             else -> throw IllegalAccessException("Route $route is not recognized")
 
         }

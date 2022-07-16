@@ -11,12 +11,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.add_edit.ScreenAddEditRecipe
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.auth.AuthScreen
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.auth.sign_in.SignInGoogleViewModel
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.auth.sign_in.SignInGoogleViewModelFactory
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.catalog.ScreenCatalog
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.detail.ScreenDetail
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.ScreenMain
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.auth.SignInGoogleViewModel
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.main.auth.SignInGoogleViewModelFactory
+import com.arcieri.wagner.mvvm_recipebook.ui.screen.main_menu.MainMenu
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
@@ -31,17 +32,31 @@ fun RecipeBookNavigation() {
 
     catalogViewModel.navHostController = rememberNavController()
 
+    val isUserSigned =  signInGoogleViewModel.checkSignedInUser(context)
+
+
     NavHost(
-        navController = catalogViewModel.navHostController,
-        startDestination = Screens.MainScreen.name
+        startDestination =
+        if (isUserSigned) {
+            Screens.MainMenuScreen.name
+        } else {
+            Screens.AuthScreen.name
+        },
+        navController = catalogViewModel.navHostController
     ) {
 
 
 
-        /** MainScreen */
-        composable(Screens.MainScreen.name){
-            ScreenMain(catalogViewModel = catalogViewModel, signInGoogleViewModel)
+        /** AuthScreen */
+        composable(Screens.AuthScreen.name){
+            AuthScreen(catalogViewModel = catalogViewModel, signInGoogleViewModel)
         }
+
+        /** MainMenuScreen */
+        composable(Screens.MainMenuScreen.name){
+            MainMenu(catalogViewModel = catalogViewModel, signInGoogleViewModel)
+        }
+
 
         /** Catalog*/
         composable(Screens.CatalogScreen.name){
