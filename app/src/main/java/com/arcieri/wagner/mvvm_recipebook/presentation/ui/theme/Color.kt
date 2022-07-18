@@ -83,5 +83,7 @@ val RB_White_75 = Color(0xBFFFFFFF)
 val RB_Gray = Color(0xFF7E7E7E)
 val RB_Black = Color(0xFF000000)
 val RB_Black_75 = Color(0xBF000000)
+val RB_Black_50 = Color(0x80000000)
+val RB_Black_25 = Color(0x40000000)
 val RB_Transparent = Color(0x00000000)
 
