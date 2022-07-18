@@ -35,7 +35,7 @@ fun IngredientItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 20.dp, end = 10.dp, top = 4.dp, bottom = 4.dp)
+            .padding(start = 20.dp, end = 10.dp)
             .wrapContentHeight()
             .background(backgroundColor),
         horizontalAlignment = Alignment.Start,
@@ -45,6 +45,7 @@ fun IngredientItem(
         //Ingredient Line
         Row(
             modifier = Modifier
+                .padding(top = 2.dp, bottom = 2.dp)
                 .fillMaxWidth()
                 .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically,
@@ -112,7 +113,7 @@ fun IngredientItem(
                                         if (ingredient.quantity ==
                                             ingredient.quantity?.let {floor(it)}) {
 
-                                            df.format(ingredient.quantity)
+                                            "${ingredient.quantity?.toBigDecimal()?.setScale(0)}"
 
                                         } else {
 
