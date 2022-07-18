@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.navigation.Screens
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_menu_content.MainMenuButtons
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.MainMenuButtons
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.BackgroundImageRow
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.GradientColumn
 

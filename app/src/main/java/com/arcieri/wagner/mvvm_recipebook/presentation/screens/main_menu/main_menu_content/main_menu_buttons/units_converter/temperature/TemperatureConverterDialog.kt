@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_menu_content.main_menu_buttons.units_converter.temperature
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.units_converter.temperature
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState

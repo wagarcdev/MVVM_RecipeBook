@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_menu_content.main_menu_buttons.units_converter.components
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.units_converter.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
