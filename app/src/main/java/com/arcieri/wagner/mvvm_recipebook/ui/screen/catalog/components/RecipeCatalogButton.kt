@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.ui.screen.widgets.RecipeImageAndInfo
-import com.arcieri.wagner.mvvm_recipebook.ui.theme.RB_White
+import com.arcieri.wagner.mvvm_recipebook.ui.theme.RB_OrangeDark
 import com.arcieri.wagner.mvvm_recipebook.ui.theme.Shapes
 
 @Composable
@@ -27,7 +27,7 @@ fun RecipeCatalogButton(
             .height(160.dp)
             .clickable { onClick.invoke() },
         shape = Shapes.medium,
-        border = BorderStroke(1.dp, RB_White)
+        border = BorderStroke(2.dp, RB_OrangeDark)
     ) {
         RecipeImageAndInfo(recipe)
     }

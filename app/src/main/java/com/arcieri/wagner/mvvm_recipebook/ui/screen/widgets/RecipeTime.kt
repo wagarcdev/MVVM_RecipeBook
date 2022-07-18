@@ -11,6 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
@@ -20,7 +22,9 @@ import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 @Composable
 fun RecipeTimeColumn(
     recipe: Recipe,
-    colors: Color
+    colors: Color,
+    fontSize: TextUnit = 10.sp,
+    iconSize: Dp = 15.dp
 ) {
 
     var recipeMinutes = recipe.recipeTime
@@ -33,17 +37,17 @@ fun RecipeTimeColumn(
 
     Column(
         modifier = Modifier
-            .width(85.dp)
+            .wrapContentWidth()
     ) {
         Row(modifier = Modifier
-            .height(25.dp),
+            .wrapContentHeight(),
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             Icon(
                 modifier = Modifier
-                    .height(20.dp),
+                    .size(iconSize),
                 painter = painterResource(id = R.drawable.ic_clock),
                 contentDescription = "Tempo de Preparo ",
                 tint = colors
@@ -53,7 +57,7 @@ fun RecipeTimeColumn(
 
             val recipeTimeNullString = " add time"
             Text(
-                fontSize = 12.sp,
+                fontSize = fontSize,
                 fontWeight = FontWeight.ExtraBold,
                 color = colors,
                 text =

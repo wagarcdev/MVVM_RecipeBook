@@ -49,17 +49,17 @@ fun RecipeImageAndInfo(recipe: Recipe) {
         columnHorizontalAlignment = Alignment.CenterHorizontally,
         columnVerticalArrangement = Arrangement.Bottom ,
         topSpacerTransition = true,
-        topSpacerTransitionHeight = 100.dp,
+        topSpacerTransitionHeight = 20.dp,
         topTransitionTopColor = Color(0x00000000),
         topTransitionMiddleColor = Color(0x1A000000),
         topTransitionBottomColor = Color(0x4D000000),
         bottomSpacerTransition = false,
         columnTopColor = Color(0x4D000000),
-        columnMiddleColor = Color(0x4D000000),
-        columnBottomColor = Color(0xCC000000),
+        columnMiddleColor = Color(0x99000000),
+        columnBottomColor = Color(0xE6000000),
         contentHorizontalAlignment = Alignment.CenterHorizontally,
         contentVerticalArrangement =  Arrangement.SpaceBetween,
     ) {
-        RecipeNameTimeRow(recipe, textColor = RB_White)
+        RecipeInfoColumnRows(recipe, textColor = RB_White)
     }
 }

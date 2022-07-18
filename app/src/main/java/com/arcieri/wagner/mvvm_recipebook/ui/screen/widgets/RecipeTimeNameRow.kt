@@ -17,41 +17,56 @@ import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.ui.theme.RB_Black
 
 @Composable
-fun RecipeNameTimeRow(
+fun RecipeInfoColumnRows(
     recipe: Recipe,
     textColor: Color = RB_Black,
     iconsColor: Color = Color.Gray
 ) {
-
-
-    Row(
+    Column(
         modifier = Modifier
             .wrapContentHeight()
-            .fillMaxWidth()
-            .padding(start = 20.dp, bottom = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Bottom
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Bottom
     ) {
 
-        Text(
+        Row(
             modifier = Modifier
-                .weight(1f),
-            text = recipe.name,
-            color = textColor,
-            fontSize = 22.sp,
-            fontWeight = FontWeight.ExtraBold,
-            textAlign = TextAlign.Start
-        )
-        
-        if (recipe.portions > 0 || recipe.recipeTime > 0) {
-            
-            Spacer(modifier = Modifier.width(16.dp))
-            
-            PortionsAndTimeColumn(recipe)
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(start = 20.dp, bottom = 0.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom
+        ) {
+
+            if (recipe.portions > 0 || recipe.recipeTime > 0) {
+                TimeAndPortionsColumn(recipe)
+            }
         }
 
+        Row(
+            modifier = Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(start = 20.dp, bottom = 0.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom
+        ) {
 
+            Text(
+                modifier = Modifier
+                    .weight(1f),
+                text = recipe.name,
+                color = textColor,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.ExtraBold,
+                textAlign = TextAlign.Start,
+                lineHeight = 15.sp
+            )
+        }
     }
+
+
+
 }
 
 @Preview(showBackground = true)
@@ -60,5 +75,5 @@ fun RecipeTimeNameRowPreview() {
 
     val recipe = RecipeData().loadRecipe(LocalContext.current)
 
-    RecipeNameTimeRow(recipe)
+    RecipeInfoColumnRows(recipe)
 }
