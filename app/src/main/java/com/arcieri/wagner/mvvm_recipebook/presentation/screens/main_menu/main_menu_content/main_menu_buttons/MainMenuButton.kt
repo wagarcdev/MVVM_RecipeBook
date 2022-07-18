@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_menu_content.main_menu_buttons
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

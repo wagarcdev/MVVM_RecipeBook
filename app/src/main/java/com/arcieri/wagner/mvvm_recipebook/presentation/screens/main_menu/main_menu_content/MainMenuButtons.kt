@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_menu_content
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
@@ -14,10 +14,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.navigation.Screens
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_menu_content.main_menu_buttons.MainMenuButton
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_menu_content.main_menu_buttons.UnitsConverterAlertDialog
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.MainMenuButton
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.UnitsConverterAlertDialog
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 

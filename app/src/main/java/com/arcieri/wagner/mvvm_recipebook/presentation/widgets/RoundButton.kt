@@ -1,21 +1,24 @@
 package com.arcieri.wagner.mvvm_recipebook.presentation.widgets
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.R
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 
 
 /**
@@ -49,43 +52,112 @@ fun RoundButton(
     padding: Dp = 1.dp,
     elevation: Dp = 0.dp,
     buttonSize: Dp = 30.dp,
-    backgroundColor: Color = Color(0x1A000000),
-    borderStroke: Dp = 1.dp,
+    leftGradientColor: Color = Color(0xFF000000),
+    centerLeftGradientColor: Color = Color(0xFF1B1B1B),
+    centerGradientColor: Color = Color(0xFF1B1B1B),
+    centerRightGradientColor: Color = Color(0xFF1B1B1B),
+    rightGradientColor: Color = Color(0xFF3F3F3F),
+    borderStroke: BorderStroke = BorderStroke(0.dp, RB_Transparent),
     borderColor: Color = Color(0xFF0000FF),
     iconID: Int = R.drawable.ic_launcher_foreground,
     iconSize: Dp = 20.dp,
     iconDescription: String = "",
     iconColor: Color = Color(0xFF0000FF),
     onClick: () -> Unit = { }
-    ) {
+) {
+
     Card(
         modifier = Modifier
-            .padding(padding)
-            .size(buttonSize),
-        backgroundColor = backgroundColor,
-        shape = RoundedCornerShape(buttonSize),
-        elevation = elevation,
-        border = BorderStroke(
-            width = borderStroke,
-            color = borderColor
-        ),
-        onClick = { onClick.invoke() }
+            .wrapContentSize()
+            .clickable { onClick.invoke() }
+            .clip(CircleShape)
+            .background(
+                Brush.horizontalGradient(
+                    listOf(
+                        leftGradientColor,
+                        centerLeftGradientColor,
+                        centerGradientColor,
+                        centerRightGradientColor,
+                        rightGradientColor,
+                    ),
+                )
+            ),
+        elevation = 0.dp,
+        border = borderStroke,
+        backgroundColor = Color(0x00000000)
+
     ) {
         Row(
+            modifier = Modifier
+                .wrapContentSize(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
+
+            Column(
                 modifier = Modifier
-                    .size(iconSize),
-                painter = painterResource(id = iconID),
-                contentDescription = iconDescription,
-                tint = iconColor
+                    .wrapContentSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Icon(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .size(iconSize),
+                    painter = painterResource(id = iconID),
+                    contentDescription = iconDescription,
+                    tint = iconColor
 
 
-            )
+                )
+
+            }
         }
     }
+
+
+
+
+//    Card(
+//        modifier = Modifier
+//            .padding(padding)
+//            .size(buttonSize)
+//            .clip(CircleShape)
+//            .background(
+//                Brush.horizontalGradient(
+//                    listOf(
+//                        leftGradientColor,
+//                        centerLeftGradientColor,
+//                        centerGradientColor,
+//                        centerRightGradientColor,
+//                        rightGradientColor,
+//                    ),
+//                )
+//            ),
+//        shape = RoundedCornerShape(buttonSize),
+//        elevation = elevation,
+//        border = BorderStroke(
+//            width = borderStroke,
+//            color = borderColor
+//        ),
+//        onClick = { onClick.invoke() }
+//    ) {
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.Center
+//        ) {
+//            Icon(
+//                modifier = Modifier
+//                    .size(iconSize),
+//                painter = painterResource(id = iconID),
+//                contentDescription = iconDescription,
+//                tint = iconColor
+//
+//
+//            )
+//        }
+//    }
 }
 
 
