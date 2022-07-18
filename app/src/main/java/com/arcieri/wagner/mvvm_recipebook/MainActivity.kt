@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import com.arcieri.wagner.mvvm_recipebook.navigation.RecipeBookNavigation
-import com.arcieri.wagner.mvvm_recipebook.ui.theme.MVVM_RecipeBookTheme
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.MVVM_RecipeBookTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

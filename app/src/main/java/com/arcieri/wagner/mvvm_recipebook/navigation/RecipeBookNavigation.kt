@@ -10,14 +10,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.add_edit.ScreenAddEditRecipe
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.auth.AuthScreen
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.auth.sign_in.SignInGoogleViewModel
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.auth.sign_in.SignInGoogleViewModelFactory
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.catalog.CatalogViewModel
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.catalog.ScreenCatalog
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.detail.ScreenDetail
-import com.arcieri.wagner.mvvm_recipebook.ui.screen.main_menu.MainMenu
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.ScreenAddEditRecipe
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.AuthScreen
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModelFactory
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.ScreenCatalog
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.detail.ScreenDetail
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.MainMenu
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
