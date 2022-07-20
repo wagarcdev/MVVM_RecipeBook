@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 
-@Database(entities = [Recipe::class], version = 8, exportSchema = false)
+@Database(entities = [Recipe::class], version = 9, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class RecipeDatabase: RoomDatabase() {
 

@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.detail
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.detail.components.DetailScreenContent
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.detail.components.EditRecipeFAB
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.DetailScreenContent
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.DetailScreenTopBar
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.EditRecipeFAB
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ScreenDetail(
+fun ScreenDetails(
     catalogViewModel: CatalogViewModel,
 ) {
 
@@ -28,6 +29,7 @@ fun ScreenDetail(
             .navigationBarsPadding()
             .background(Color(0xFFFFFFFF))
             .fillMaxSize(),
+        topBar = { DetailScreenTopBar(recipe)  },
         content =  { DetailScreenContent(recipe) },
         floatingActionButton = { EditRecipeFAB(catalogViewModel, recipe) },
         floatingActionButtonPosition = FabPosition.Center,

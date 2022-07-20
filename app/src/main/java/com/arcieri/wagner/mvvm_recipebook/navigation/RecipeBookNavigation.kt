@@ -16,7 +16,7 @@ import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.Sign
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModelFactory
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.ScreenCatalog
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.detail.ScreenDetail
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.ScreenDetails
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.MainMenu
 
 @RequiresApi(Build.VERSION_CODES.R)
@@ -64,7 +64,7 @@ fun RecipeBookNavigation() {
         }
 
         composable(Screens.DetailScreen.name) {
-            ScreenDetail(
+            ScreenDetails(
                 catalogViewModel = catalogViewModel,
             )
         }

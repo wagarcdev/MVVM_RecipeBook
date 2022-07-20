@@ -66,6 +66,8 @@ dependencies {
     //LiveData
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
+    //Constraint-Layout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha03"
 
     //Moshi
     def moshi_version = '1.8.0'

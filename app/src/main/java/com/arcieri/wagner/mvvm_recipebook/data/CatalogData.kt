@@ -77,7 +77,7 @@ class CatalogData {
                         name = "Água",
                         isLiquid = true,
                         isUnit = false,
-                        isWeight = true,
+                        isWeight = false,
                         volumeInMilliliters = 1200,
                     ),
                     Ingredient(

@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.detail.components.detail_screen_content
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
