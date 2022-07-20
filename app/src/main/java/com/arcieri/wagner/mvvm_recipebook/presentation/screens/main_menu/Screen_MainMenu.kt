@@ -11,7 +11,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.arcieri.wagner.mvvm_recipebook.data.CatalogData
 import com.arcieri.wagner.mvvm_recipebook.navigation.Screens
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
@@ -30,10 +32,17 @@ fun MainMenu(
     val state = signInGoogleViewModel.googleUser.observeAsState()
     val user = state.value
 
+
+
+    val defaultCatalog = CatalogData().loadCatalog(LocalContext.current)
+
+
     LaunchedEffect(user) {
         if (user == null) {
             catalogViewModel.navHostController.navigate(route = Screens.AuthScreen.name)
         }
+
+//        catalogViewModel.addCatalog(defaultCatalog)
     }
 
     BackgroundImageRow()

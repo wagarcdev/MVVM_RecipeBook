@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.R
+import com.arcieri.wagner.mvvm_recipebook.di.AppModule
 import com.arcieri.wagner.mvvm_recipebook.navigation.Screens
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
@@ -20,6 +21,7 @@ import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_me
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.UnitsConverterAlertDialog
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.*
 import kotlinx.coroutines.launch
+
 
 @Composable
 fun MainMenuButtons(
@@ -111,6 +113,7 @@ fun MainMenuButtons(
             catalogViewModel.navHostController.navigate(route = Screens.AddEditRecipeScreen.name)
         }
 
+        var db = AppModule.providesAppDatabase(context).isOpen
         /**   Import Recipe     */
         MainMenuButton(
             iconID = R.drawable.ic_import_flat_white,
@@ -126,7 +129,8 @@ fun MainMenuButtons(
             centerRightGradientColor = RB_Yellow,
             rightGradientColor = RB_YellowLight,
             fontColor = RB_White
-        ) { }
+        ) {
+        }
 
 
         /**   Unit Converter     */

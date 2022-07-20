@@ -37,9 +37,6 @@ class MainActivity : ComponentActivity() {
 
             RecipeBookApp {
 
-
-
-
                 RecipeBookNavigation()
 
             }

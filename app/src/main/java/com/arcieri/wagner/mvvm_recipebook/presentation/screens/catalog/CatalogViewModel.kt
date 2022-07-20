@@ -80,6 +80,4 @@ class CatalogViewModel @Inject constructor (
 
 
 
-
-
 }
