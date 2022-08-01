@@ -126,11 +126,19 @@ fun ImageSelector(recipeDraft: Recipe) {
                         ImageRequest.Builder(LocalContext.current)
                             .data(recipeDraftImage.value)
                             .crossfade(true)
+                            .fallback(R.drawable.no_image)
                             .build()
+
                     } else {
                         R.drawable.no_image
                     }, contentDescription = "",
-                    contentScale = ContentScale.FillWidth
+                    contentScale =
+                    if (recipeDraftImage.value == "" || recipeDraftImage.value == null) {
+                        ContentScale.Fit
+                    } else {
+                        ContentScale.FillWidth
+                    }
+
                 )
 
 

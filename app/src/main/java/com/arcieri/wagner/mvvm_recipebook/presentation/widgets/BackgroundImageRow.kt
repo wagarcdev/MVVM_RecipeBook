@@ -12,7 +12,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.components.main_screen_content.AppLogo
-import com.google.accompanist.insets.statusBarsPadding
 
 @RequiresApi(Build.VERSION_CODES.R)
 @Composable
@@ -45,7 +44,7 @@ private fun BackgroundContent() {
 
         Column(
             modifier = Modifier
-                .statusBarsPadding()
+                .systemBarsPadding()
                 .padding(top = 8.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,

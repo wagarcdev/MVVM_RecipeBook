@@ -30,8 +30,16 @@ class CatalogViewModel @Inject constructor (
     private var _recipeList = MutableStateFlow<List<Recipe>>(emptyList())
     val recipeList = _recipeList.asStateFlow()
 
-    var recipe by mutableStateOf(Recipe(name = "NEW RECIPE"))
+    var recipe by mutableStateOf(
+        Recipe(
+            name = "NEW RECIPE",
+        )
+    )
         private set
+
+
+
+
 
     fun currentRecipe(currentRecipe: Recipe) {
         recipe = currentRecipe

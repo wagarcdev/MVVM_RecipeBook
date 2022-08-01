@@ -3,6 +3,7 @@ package com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,7 +28,9 @@ fun ScreenAddEditRecipe(
     val itemPadding = 5.dp
 
     LazyColumn(
-        Modifier.navigationBarsPadding(),
+        modifier = Modifier
+            .navigationBarsPadding()
+            .systemBarsPadding(),
         verticalArrangement = Arrangement.spacedBy(itemPadding),
         contentPadding = PaddingValues(top = 0.dp, bottom = 10.dp)
     ) {
