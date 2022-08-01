@@ -6,15 +6,11 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.EditIngredientsSection
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.EditMethodsSection
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.EditTitleAndTimeRow
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.ImageSelector
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.ImageAndTitleSelectorRowItem
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 
 
@@ -35,9 +31,7 @@ fun ScreenAddEditRecipe(
         contentPadding = PaddingValues(top = 0.dp, bottom = 10.dp)
     ) {
 
-        item { ImageSelector(recipe) }
-
-        item { EditTitleAndTimeRow(catalogViewModel, itemPadding, recipe) }
+        item { ImageAndTitleSelectorRowItem(recipe, itemPadding) }
 
         item { EditIngredientsSection(recipe, itemPadding) }
 
@@ -46,18 +40,3 @@ fun ScreenAddEditRecipe(
     }
 }
 
-
-
-@Preview(showBackground = true)
-@Composable
-fun ScreenAddEditRecipePreview() {
-
-    val recipeList = viewModel<CatalogViewModel>().recipeList.collectAsState().value
-
-   // ScreenAddEditRecipe( recipe = recipeList[0] )
-
-
-
-
-
-}

@@ -10,15 +10,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
@@ -77,60 +75,13 @@ fun EditRecipeTimeButtonDisplay(
             isDialogOpen = isDialogOpen,
             title = "Recipe Preparation Time",
             dialogContent = {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(sizeScale),
-                        painter = painterResource(id = R.drawable.ic_clock),
-                        contentDescription = "Tempo de Preparo ",
-                        tint = Color(0xFF7A7A7A)
-                    )
-                }
-
-                //Hours
-                VerticalNumberPicker(
-                    width = sizeScale,
-                    max = 99,
-                    default = recipeDraftTime.value.div(60),
-                    onValueChange = {
-                        coroutineScope.launch(Dispatchers.Default) {
-//                                recipeHours.value = recipeHours.value.plus(it)
-                            recipeHours.value = it
-                            recipeDraftTime.value = (recipeHours.value * 60) + (recipeMinutes.value)
-                        }
-                    }
+                RecipePrepTimeDialogContent(
+                    sizeScale,
+                    recipeDraftTime,
+                    coroutineScope,
+                    recipeHours,
+                    recipeMinutes
                 )
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "Hour", fontSize = (sizeScale.value / 2).sp)
-                }
-
-                //Minutes
-                VerticalNumberPicker(
-                    width = sizeScale,
-                    max = 60,
-                    default = recipeDraftTime.value.rem(60),
-                    onValueChange = {
-                        coroutineScope.launch(Dispatchers.Default) {
-//                                recipeMinutes.value = recipeMinutes.value.plus(it)
-                            recipeMinutes.value = it
-                            recipeDraftTime.value = (recipeHours.value * 60) + (recipeMinutes.value)
-                        }
-
-                    }
-                )
-
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "min", fontSize = (sizeScale.value / 2).sp)
-                }
             },
             defaultBottomBar = true
         )
@@ -138,11 +89,12 @@ fun EditRecipeTimeButtonDisplay(
 
         Card(
             modifier = Modifier
+                .padding(2.dp)
                 .height(40.dp)
                 .fillMaxWidth(0.3f)
                 .clickable { isDialogOpen.value = true },
             elevation = 4.dp,
-            shape = RoundedCornerShape(10.dp),
+            shape = RoundedCornerShape(50.dp),
             border =
             BorderStroke(
                 width = 1.dp,
@@ -210,6 +162,75 @@ fun EditRecipeTimeButtonDisplay(
 
 
             }
+        }
+    }
+}
+
+@Composable
+private fun RecipePrepTimeDialogContent(
+    sizeScale: Dp,
+    recipeDraftTime: MutableState<Int>,
+    coroutineScope: CoroutineScope,
+    recipeHours: MutableState<Int>,
+    recipeMinutes: MutableState<Int>
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                modifier = Modifier
+                    .size(sizeScale),
+                painter = painterResource(id = R.drawable.ic_clock),
+                contentDescription = "Tempo de Preparo ",
+                tint = Color(0xFF7A7A7A)
+            )
+        }
+
+        //Hours
+        VerticalNumberPicker(
+            width = sizeScale,
+            max = 99,
+            default = recipeDraftTime.value.div(60),
+            onValueChange = {
+                coroutineScope.launch(Dispatchers.Default) {
+//                                recipeHours.value = recipeHours.value.plus(it)
+                    recipeHours.value = it
+                    recipeDraftTime.value = (recipeHours.value * 60) + (recipeMinutes.value)
+                }
+            }
+        )
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Hour", fontSize = (sizeScale.value / 2).sp)
+        }
+
+        //Minutes
+        VerticalNumberPicker(
+            width = sizeScale,
+            max = 60,
+            default = recipeDraftTime.value.rem(60),
+            onValueChange = {
+                coroutineScope.launch(Dispatchers.Default) {
+//                                recipeMinutes.value = recipeMinutes.value.plus(it)
+                    recipeMinutes.value = it
+                    recipeDraftTime.value = (recipeHours.value * 60) + (recipeMinutes.value)
+                }
+
+            }
+        )
+
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "min", fontSize = (sizeScale.value / 2).sp)
         }
     }
 }

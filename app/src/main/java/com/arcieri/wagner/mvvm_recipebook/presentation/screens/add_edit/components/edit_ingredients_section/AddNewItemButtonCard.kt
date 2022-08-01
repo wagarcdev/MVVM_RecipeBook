@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -29,7 +28,7 @@ import androidx.compose.ui.unit.sp
 fun AddNewItemButtonCard(
     buttonText: String,
     fillMaxWidthFloat: Float = 1f,
-    minHeight: Dp = 50.dp,
+    minHeight: Dp = 60.dp,
     onClick: () -> Unit
 ) {
     Card(
@@ -40,8 +39,8 @@ fun AddNewItemButtonCard(
                 onClick.invoke()
             },
         elevation = 4.dp,
-        shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(1.dp, Color(0xFF0022A3))
+        shape = RoundedCornerShape(50.dp),
+        border = BorderStroke(2.dp, Color(0xFF0022A3))
     ) {
         Row(
             modifier = Modifier
@@ -61,7 +60,6 @@ fun AddNewItemButtonCard(
                 text = buttonText,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                fontStyle = FontStyle.Italic,
                 color = Color(0xFF000000)
             )
         }

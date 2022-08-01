@@ -180,10 +180,10 @@ fun EditMethodsSection(
             )
 
             AddNewItemButtonCard(
-                buttonText = "Method",
-                minHeight = 70.dp,
+                buttonText = "ADD Method",
+                minHeight = 60.dp,
                 onClick = { isDialogOpen.value = true },
-                fillMaxWidthFloat = 0.9f
+                fillMaxWidthFloat = 0.75f
             )
         }
 

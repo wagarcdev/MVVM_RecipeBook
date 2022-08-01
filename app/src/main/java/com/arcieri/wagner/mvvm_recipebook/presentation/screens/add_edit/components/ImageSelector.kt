@@ -32,12 +32,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeNameButtonDisplay
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeTimeButtonDisplay
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.SelectOptionAlertDialogButton
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +48,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ImageSelector(recipeDraft: Recipe) {
+fun ImageAndTitleSelectorRowItem(
+    recipeDraft: Recipe,
+    itemPadding: Dp = 1.dp
+) {
 
 
 
@@ -151,16 +157,34 @@ fun ImageSelector(recipeDraft: Recipe) {
                 .padding(start = 10.dp, end = 10.dp, bottom = 0.dp)
                 .height(170.dp)
                 .fillMaxWidth(),
-            horizontalAlignment = Alignment.End,
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
             Row(
                 modifier = Modifier
                     .padding(vertical = 15.dp),
-                horizontalArrangement = Arrangement.SpaceAround
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.Bottom
             ) {
 
                 val isDialogOpen = remember { mutableStateOf(false) }
+
+                val recipeDraftTitle = remember { mutableStateOf(recipeDraft.name) }
+                val coroutineScope = rememberCoroutineScope()
+
+
+
+                Column(
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+
+                    EditRecipeTimeButtonDisplay(recipeDraft, coroutineScope)
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    EditRecipeNameButtonDisplay(itemPadding, recipeDraftTitle, coroutineScope)
+
+                }
 
                 ShowAlertDialog(
                     isDialogOpen = isDialogOpen,
@@ -233,21 +257,7 @@ fun ImageSelector(recipeDraft: Recipe) {
                             }
                         }
                         /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
-                        /** DELETE Image Button*/
+
 
                     }
                 }
@@ -261,22 +271,6 @@ fun ImageSelector(recipeDraft: Recipe) {
                     verticalArrangement = Arrangement.Bottom
                 ) {
 
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
 
                     /** CHANGE Image Button*/
                     Card(
@@ -330,21 +324,6 @@ fun ImageSelector(recipeDraft: Recipe) {
 
                         }
                     }
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
-                    /** CHANGE Image Button*/
                     /** CHANGE Image Button*/
 
 

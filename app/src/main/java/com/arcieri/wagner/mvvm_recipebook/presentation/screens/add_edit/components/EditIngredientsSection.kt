@@ -83,12 +83,12 @@ fun EditIngredientsSection(
 
 
             AddNewItemButtonCard(
-                buttonText = "Ingredient",
+                buttonText = "ADD Ingredient",
                 minHeight = 60.dp,
                 onClick = {
 
                 },
-                fillMaxWidthFloat = 0.9f
+                fillMaxWidthFloat = 0.75f
             )
 
 

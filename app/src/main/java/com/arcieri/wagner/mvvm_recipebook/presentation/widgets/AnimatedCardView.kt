@@ -43,7 +43,7 @@ fun AnimatedCardView(
                     .fillMaxWidth(fillMaxWidthFloat)
                     .clickable { isSelected = !isSelected },
                 elevation = 4.dp,
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(50.dp),
                 border =
                     BorderStroke(
                         width = 1.dp,
@@ -66,7 +66,7 @@ fun AnimatedCardView(
                     .fillMaxWidth(fillMaxWidthFloat)
                     .clickable { isSelected = !isSelected },
                 elevation = 4.dp,
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(50.dp),
                 border =
                     BorderStroke(
                         width = 2.dp,

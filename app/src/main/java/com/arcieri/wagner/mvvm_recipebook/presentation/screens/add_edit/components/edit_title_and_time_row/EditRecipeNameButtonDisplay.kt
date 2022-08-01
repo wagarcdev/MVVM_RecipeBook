@@ -63,14 +63,15 @@ fun EditRecipeNameButtonDisplay(
 
         Card(
             modifier = Modifier
+                .padding(2.dp)
                 .height(40.dp)
                 .wrapContentWidth()
                 .clickable { isDialogOpen.value = true },
             elevation = 4.dp,
-            shape = RoundedCornerShape(10.dp),
+            shape = RoundedCornerShape(50.dp),
             border =
             BorderStroke(
-                width = 1.dp,
+                width = 2.dp,
                 color = Color(0xFF888888)
 
             )
