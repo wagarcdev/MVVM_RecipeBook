@@ -1,7 +1,6 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_ingredients_section
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_base_recipes
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -13,58 +12,58 @@ import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 
-/**
- *
- *
- *   Input and Buttons
- *
- * */
 @Composable
-fun AddNewItemButtonCard(
-    buttonText: String,
-    fillMaxWidthFloat: Float = 1f,
-    minHeight: Dp = 60.dp,
-    onClick: () -> Unit
-) {
+fun AddNewBaseRecipeButtonCard(onClick: () -> Unit) {
+
     Card(
         modifier = Modifier
-            .defaultMinSize(minHeight = minHeight)
-            .fillMaxWidth(fillMaxWidthFloat)
-            .clickable {
-                onClick.invoke()
-            },
-        elevation = 5.dp,
-        shape = RoundedCornerShape(50.dp),
+            .padding(2.dp)
+            .size(132.dp),
+        shape = RoundedCornerShape(10.dp),
         border = BorderStroke(2.dp, MaterialTheme.colors.primary),
-        backgroundColor = RB_White
+        elevation = 5.dp
     ) {
-        Row(
+
+        Column(
             modifier = Modifier
-                .height(35.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
+                .padding(8.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Icon(
                 modifier = Modifier
-                    .padding(start = 35.dp, end = 20.dp)
+                    .padding(start = 0.dp, end = 0.dp)
                     .size(35.dp),
                 imageVector = Icons.Rounded.AddCircle,
                 contentDescription = "Add Button Icon",
                 tint = MaterialTheme.colors.primary
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Text(
-                text = buttonText,
-                fontSize = 18.sp,
+                text = "ADD",
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF000000)
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
+
+            Text(
+                text = "Base Recipe",
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
         }
     }
+
 }

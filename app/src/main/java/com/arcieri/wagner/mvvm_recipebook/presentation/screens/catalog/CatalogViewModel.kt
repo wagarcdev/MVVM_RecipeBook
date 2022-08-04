@@ -37,6 +37,30 @@ class CatalogViewModel @Inject constructor (
     )
         private set
 
+    private var _recipeTime = MutableStateFlow(0)
+    val recipeTime = _recipeTime.asStateFlow()
+
+    private var recipeMinutes = 0
+    private var recipeHours = 0
+
+    fun changeMinutes(minutes: Int) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            recipeMinutes = minutes
+            _recipeTime.value = recipeMinutes + (recipeHours * 60)
+        }
+    }
+
+    fun changeHours(hours: Int) {
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            recipeHours = hours
+            _recipeTime.value = recipeMinutes + (recipeHours * 60)
+        }
+    }
+
 
 
 

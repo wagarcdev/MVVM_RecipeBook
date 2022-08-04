@@ -51,7 +51,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ImageAndTitleSelectorRowItem(
+fun ImageTitleAndTimeSelectorRowItem(
     catalogViewModel: CatalogViewModel,
     itemPadding: Dp = 1.dp
 ) {
@@ -223,7 +223,7 @@ fun ImageAndTitleSelectorRowItem(
                     verticalArrangement = Arrangement.Bottom
                 ) {
 
-                    EditRecipeTimeButtonDisplay(catalogViewModel, recipe, coroutineScope)
+                    EditRecipeTimeButtonDisplay(catalogViewModel, coroutineScope)
 
                     Spacer(modifier = Modifier.height(8.dp))
 

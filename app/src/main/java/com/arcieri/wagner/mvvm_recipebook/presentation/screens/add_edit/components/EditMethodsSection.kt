@@ -17,10 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_ingredients_section.AddNewItemButtonCard
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_methods_section.MethodIsNotSelectedContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_methods_section.MethodIsSelectedContent
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.AnimatedCardView
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RecipeInputText
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun EditMethodsSection(
-    recipeDraft: Recipe,
+    catalogViewModel: CatalogViewModel,
     itemPadding: Dp
 ) {
 
@@ -65,7 +65,7 @@ fun EditMethodsSection(
 //        val recipeDraftMethods = emptyList<String>().toMutableList()
         val recipeDraftMethods = remember { mutableListOf<String>() }
 
-        recipeDraft.recipeMethods.forEach { method ->
+        catalogViewModel.recipe.recipeMethods.forEach { method ->
             recipeDraftMethods.add(method)
         }
 

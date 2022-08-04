@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

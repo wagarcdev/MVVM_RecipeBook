@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.components.IngredientsTable
 
 @Composable
 fun RecipeDetailsContent(recipe: Recipe) {

@@ -11,7 +11,10 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,7 +23,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
@@ -34,9 +36,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun EditRecipeTimeButtonDisplay(
     catalogViewModel: CatalogViewModel,
-    recipeDraft: Recipe,
     coroutineScope: CoroutineScope
 ) {
+
+    val recipeTime = catalogViewModel.recipeTime.collectAsState()
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -44,19 +48,9 @@ fun EditRecipeTimeButtonDisplay(
 
 
         val isDialogOpen = remember { mutableStateOf(false) }
-        val recipeDraftTime = remember { mutableStateOf(recipeDraft.recipeTime) }
 
         val sizeScale = 40.dp
 
-        val recipeMinutes = remember { mutableStateOf(recipeDraftTime.value) }
-        val recipeHours = remember { mutableStateOf(0) }
-
-        LaunchedEffect(key1 = recipeMinutes) {
-            if (recipeMinutes.value >= 60) {
-                recipeHours.value = recipeMinutes.value / 60
-                recipeMinutes.value = recipeMinutes.value % 60
-            }
-        }
 
         /**
          *
@@ -83,10 +77,7 @@ fun EditRecipeTimeButtonDisplay(
                 RecipePrepTimeDialogContent(
                     catalogViewModel,
                     sizeScale,
-                    recipeDraftTime,
-                    coroutineScope,
-                    recipeHours,
-                    recipeMinutes
+                    coroutineScope
                 )
             },
             defaultBottomBar = true
@@ -131,7 +122,7 @@ fun EditRecipeTimeButtonDisplay(
 
 
                 AnimatedVisibility(
-                    visible = recipeDraftTime.value == 0,
+                    visible = recipeTime.value == 0,
                     enter = EnterTransition.None,
                     exit = ExitTransition.None
                 ) {
@@ -144,7 +135,7 @@ fun EditRecipeTimeButtonDisplay(
                 }
 
                 AnimatedVisibility(
-                    visible = recipeDraftTime.value != 0,
+                    visible =  recipeTime.value != 0,
                     enter = EnterTransition.None,
                     exit = ExitTransition.None
                 ) {
@@ -153,13 +144,13 @@ fun EditRecipeTimeButtonDisplay(
                         fontWeight = FontWeight.ExtraBold,
                         color =  RB_White,
                         text =
-                        if (recipeDraftTime.value < 60) {
-                            " ${recipeDraftTime.value}min"
+                        if ( recipeTime.value < 60) {
+                            " ${ recipeTime.value} min"
                         } else {
-                            if ((recipeDraftTime.value % 60) == 0) {
-                                " ${recipeDraftTime.value / 60}h"
+                            if (( recipeTime.value % 60) == 0) {
+                                " ${ recipeTime.value / 60} h"
                             } else {
-                                " ${recipeDraftTime.value / 60}h${recipeDraftTime.value % 60}min"
+                                " ${ recipeTime.value / 60} h ${ recipeTime.value % 60} min"
                             }
 
                         }
@@ -177,11 +168,11 @@ fun EditRecipeTimeButtonDisplay(
 private fun RecipePrepTimeDialogContent(
     catalogViewModel: CatalogViewModel,
     sizeScale: Dp,
-    recipeDraftTime: MutableState<Int>,
-    coroutineScope: CoroutineScope,
-    recipeHours: MutableState<Int>,
-    recipeMinutes: MutableState<Int>
+    coroutineScope: CoroutineScope
 ) {
+
+    val recipeTime = catalogViewModel.recipeTime.collectAsState()
+
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -203,12 +194,11 @@ private fun RecipePrepTimeDialogContent(
         VerticalNumberPicker(
             width = sizeScale,
             max = 99,
-            default = recipeDraftTime.value.div(60),
+            default = recipeTime.value.div(60),
             onValueChange = {
                 coroutineScope.launch(Dispatchers.Default) {
 
-                    recipeHours.value = it
-                    catalogViewModel.recipe.recipeTime = (recipeHours.value * 60) + (recipeMinutes.value)
+                    catalogViewModel.changeHours(it)
                 }
             }
         )
@@ -223,11 +213,12 @@ private fun RecipePrepTimeDialogContent(
         VerticalNumberPicker(
             width = sizeScale,
             max = 60,
-            default = recipeDraftTime.value.rem(60),
+            default = recipeTime.value.rem(60),
             onValueChange = {
                 coroutineScope.launch(Dispatchers.Default) {
-                    recipeMinutes.value = it
-                    catalogViewModel.recipe.recipeTime = (recipeHours.value * 60) + (recipeMinutes.value)
+
+                    catalogViewModel.changeMinutes(it)
+
                 }
 
             }
