@@ -1,8 +1,5 @@
 package com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -37,76 +34,40 @@ fun EditIngredientsSection(
 
         var isVisible by remember { mutableStateOf(true) }
 
-        isVisible = IngredientsSectionTittleRow(isVisible)
+        IngredientsSectionTittleRow()
 
         recipeDraft.ingredients.forEach { ingredient ->
             ingredient.adjustMeasuringUnits()
 
-            AnimatedVisibility(
-                visible = isVisible,
-                enter = EnterTransition.None,
-                exit = ExitTransition.None
-            ) {
-                AnimatedCardView(
-                    isNotSelectedContent = { IngredientIsNotSelectedContent(ingredient) },
-                    isSelectedContent = {
-                        IngredientIsSelectedContent(
-                            ingredient,
-                            onTextQuantityChange = {})
-                    },
-                    isSelectedBorderColor = Color(0xFF0022A3),
-                    fillMaxWidthFloat = 0.9f
-                )
-            }
-            AnimatedVisibility(
-                visible = isVisible,
-                enter = EnterTransition.None,
-                exit = ExitTransition.None
-            ) {
-                Spacer(modifier = Modifier.padding(itemPadding))
-            }
-        }
-
-
-        AnimatedVisibility(
-            visible = isVisible,
-            enter = EnterTransition.None,
-            exit = ExitTransition.None
-        ) {
-            Spacer(modifier = Modifier.padding(itemPadding))
-        }
-        AnimatedVisibility(
-            visible = isVisible,
-            enter = EnterTransition.None,
-            exit = ExitTransition.None
-        ) {
-
-
-            AddNewItemButtonCard(
-                buttonText = "ADD Ingredient",
-                minHeight = 60.dp,
-                onClick = {
-
+            AnimatedCardView(
+                isNotSelectedContent = { IngredientIsNotSelectedContent(ingredient) },
+                isSelectedContent = {
+                    IngredientIsSelectedContent(
+                        ingredient,
+                        onTextQuantityChange = {})
                 },
-                fillMaxWidthFloat = 0.75f
+                isSelectedBorderColor = Color(0xFF0022A3),
+                fillMaxWidthFloat = 0.9f
             )
 
+            Spacer(modifier = Modifier.padding(itemPadding))
 
         }
-        AnimatedVisibility(
-            visible = isVisible,
-            enter = EnterTransition.None,
-            exit = ExitTransition.None
-        ) {
-            Spacer(modifier = Modifier.padding(itemPadding))
-        }
-        AnimatedVisibility(
-            visible = isVisible,
-            enter = EnterTransition.None,
-            exit = ExitTransition.None
-        ) {
-            Spacer(modifier = Modifier.padding(itemPadding))
-        }
+
+        Spacer(modifier = Modifier.padding(itemPadding))
+
+        AddNewItemButtonCard(
+            buttonText = "ADD Ingredient",
+            minHeight = 60.dp,
+            onClick = {
+
+            },
+            fillMaxWidthFloat = 0.75f
+        )
+
+        Spacer(modifier = Modifier.padding(itemPadding))
+
+        Spacer(modifier = Modifier.padding(itemPadding))
     }
 
 
