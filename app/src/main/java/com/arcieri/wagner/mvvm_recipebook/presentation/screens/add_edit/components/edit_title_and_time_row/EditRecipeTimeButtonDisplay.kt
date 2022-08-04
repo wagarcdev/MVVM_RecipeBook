@@ -95,15 +95,14 @@ fun EditRecipeTimeButtonDisplay(
 
         Card(
             modifier = Modifier
-                .padding(2.dp)
-                .height(40.dp)
-                .fillMaxWidth(0.3f)
+                .padding(vertical = 2.dp, horizontal = 4.dp)
+                .defaultMinSize(minHeight = 40.dp)
                 .clickable { isDialogOpen.value = true },
             elevation = 0.dp,
             shape = RoundedCornerShape(50.dp),
             border =
             BorderStroke(
-                width = 1.dp,
+                width = 2.dp,
                 color = MaterialTheme.colors.primary
 
             ),
@@ -113,6 +112,7 @@ fun EditRecipeTimeButtonDisplay(
 
             Row(
                 modifier = Modifier
+                    .padding(vertical = 2.dp, horizontal = 8.dp)
                     .height(25.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
