@@ -29,6 +29,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -38,9 +39,10 @@ import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeNameButtonDisplay
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeTimeButtonDisplay
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.SelectOptionAlertDialogButton
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
 import kotlinx.coroutines.Dispatchers
@@ -49,46 +51,71 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ImageAndTitleSelectorRowItem(
-    recipeDraft: Recipe,
+    catalogViewModel: CatalogViewModel,
     itemPadding: Dp = 1.dp
 ) {
+    /**
+     * TODO
+     *
+     * Take image filepath from Gallery and Camera Capture to pass to Object Recipe for Saving
+     *
+     * Add systemBarPadding to buttons on ImageRow
+     * */
 
+    val recipe = catalogViewModel.recipe
 
+    val recipeDraftImage = remember { mutableStateOf(recipe.imageFilepath) }
 
-    val recipeDraftImage = remember { mutableStateOf(recipeDraft.imageFilepath) }
+    val coroutineScope = rememberCoroutineScope()
 
     val context = LocalContext.current
 
     var isCameraSelected = false
-    var imageUri: Uri?
+//    var imageUri: Uri?
     var bitmap: Bitmap?
-    var displayBitmap: Bitmap? = null
+//    var displayBitmap = remember { mutableStateOf<Bitmap?>(null)}
+    var photoFilepath: String? = null
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        imageUri = uri
-        bitmap = null
-        displayBitmap =
+
+//        imageUri = uri
+        bitmap =
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 ImageDecoder.decodeBitmap(
                     ImageDecoder.createSource(
                         context.contentResolver,
-                        imageUri!!
+                        uri!!
                     )
                 )
             } else {
-                MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
+                MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
             }
+
+        photoFilepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null)
+
+        coroutineScope.launch {
+            catalogViewModel.recipe.imageFilepath = photoFilepath
+        }
+
     }
 
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview()
     ) { btm: Bitmap? ->
-        bitmap = btm
-        imageUri = null
-        displayBitmap = bitmap
+
+//        bitmap = btm
+//        displayBitmap.value = bitmap
+
+        // CALL THIS METHOD TO GET THE ACTUAL PATH
+        photoFilepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), btm, "Title", null)
+
+        coroutineScope.launch {
+            catalogViewModel.recipe.imageFilepath = photoFilepath
+        }
+
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -97,6 +124,7 @@ fun ImageAndTitleSelectorRowItem(
         if (isGranted) {
             if (isCameraSelected) {
                 cameraLauncher.launch()
+
             } else {
                 galleryLauncher.launch("image/*")
             }
@@ -105,80 +133,90 @@ fun ImageAndTitleSelectorRowItem(
         }
     }
 
+    LaunchedEffect( photoFilepath ) {
+        recipeDraftImage.value = photoFilepath
+    }
 
-    Surface {
 
+    Surface(
+        color = RB_Transparent
+    ) {
+
+        val height = 240.dp
 
         Row(
             modifier = Modifier
                 .padding(0.dp)
-                .height(170.dp)
+                .height(height)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             Card(
                 modifier = Modifier
                     .padding(0.dp)
-                    .height(170.dp)
+                    .height(height)
                     .fillMaxWidth(),
                 elevation = 5.dp,
+                shape = RectangleShape,
                 border = BorderStroke(0.dp, Color(0x00000000))
             ) {
 
                 AsyncImage(
-                    model = displayBitmap ?: recipeDraftImage.value ?:
-                    if (recipeDraftImage.value != "") {
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(recipeDraftImage.value)
-                            .crossfade(true)
-                            .fallback(R.drawable.no_image)
-                            .build()
+                    model =
+//                    displayBitmap.value ?:
+//                    recipeDraftImage.value ?:
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(catalogViewModel.recipe.imageFilepath)
+                        .crossfade(true)
+                        .fallback(R.drawable.no_image)
+                        .build()
 
-                    } else {
-                        R.drawable.no_image
-                    }, contentDescription = "",
+                    , contentDescription = "",
                     contentScale =
-                    if (recipeDraftImage.value == "" || recipeDraftImage.value == null) {
-                        ContentScale.Fit
-                    } else {
+                    if (
+                        catalogViewModel.recipe.imageFilepath != null
+//                        || displayBitmap.value != null
+                    ) {
                         ContentScale.FillWidth
+                    } else {
+                        ContentScale.Fit
                     }
-
                 )
-
-
             }
         }
-
 
         Column(
             modifier = Modifier
                 .padding(start = 10.dp, end = 10.dp, bottom = 0.dp)
-                .height(170.dp)
+                .height(height)
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
             Row(
                 modifier = Modifier
+                    .fillMaxWidth(1f)
                     .padding(vertical = 15.dp),
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom
             ) {
 
                 val isDialogOpen = remember { mutableStateOf(false) }
 
-                val recipeDraftTitle = remember { mutableStateOf(recipeDraft.name) }
+                val recipeDraftTitle = remember { mutableStateOf(recipe.name) }
                 val coroutineScope = rememberCoroutineScope()
 
 
 
                 Column(
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f),
                     verticalArrangement = Arrangement.Bottom
                 ) {
 
-                    EditRecipeTimeButtonDisplay(recipeDraft, coroutineScope)
+                    EditRecipeTimeButtonDisplay(recipe, coroutineScope)
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -203,14 +241,13 @@ fun ImageAndTitleSelectorRowItem(
 
                 Column(
                     modifier = Modifier
-                        .height(170.dp)
-                        .fillMaxWidth(0.3f),
+                        .height(height),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Bottom
                 ) {
 
                     AnimatedVisibility(
-                        visible = (recipeDraftImage.value != null),
+                        visible = (catalogViewModel.recipe.imageFilepath != null),
                         enter = EnterTransition.None,
                         exit = ExitTransition.None
                     ) {
@@ -231,7 +268,7 @@ fun ImageAndTitleSelectorRowItem(
                             ),
                             onClick = {
                                 coroutineScope.launch(Dispatchers.Default) {
-                                    recipeDraftImage.value = ""
+                                    catalogViewModel.recipe.imageFilepath = null
                                 }
 
 //                                    recipeDraft.image = null
@@ -265,8 +302,7 @@ fun ImageAndTitleSelectorRowItem(
 
                 Column(
                     modifier = Modifier
-                        .height(170.dp)
-                        .fillMaxWidth(1f),
+                        .height(height),
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.Bottom
                 ) {
@@ -307,7 +343,7 @@ fun ImageAndTitleSelectorRowItem(
                                     .size(35.dp),
                                 painter =
                                 painterResource(
-                                    if (recipeDraftImage.value == null) {
+                                    if (catalogViewModel.recipe.imageFilepath == null) {
                                         R.drawable.ic_add_image
                                     } else {
                                         R.drawable.ic_change_arrows

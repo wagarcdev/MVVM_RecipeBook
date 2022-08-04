@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.VerticalNumberPicker
 import kotlinx.coroutines.CoroutineScope
@@ -93,14 +95,15 @@ fun EditRecipeTimeButtonDisplay(
                 .height(40.dp)
                 .fillMaxWidth(0.3f)
                 .clickable { isDialogOpen.value = true },
-            elevation = 4.dp,
+            elevation = 0.dp,
             shape = RoundedCornerShape(50.dp),
             border =
             BorderStroke(
                 width = 1.dp,
-                color = Color(0xFF888888)
+                color = MaterialTheme.colors.primary
 
-            )
+            ),
+            backgroundColor = RB_Transparent
         ) {
 
 

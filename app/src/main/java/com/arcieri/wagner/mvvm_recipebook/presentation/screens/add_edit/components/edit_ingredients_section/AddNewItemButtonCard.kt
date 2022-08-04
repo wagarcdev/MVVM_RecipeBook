@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircle
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 
 /**
  *
@@ -38,9 +40,10 @@ fun AddNewItemButtonCard(
             .clickable {
                 onClick.invoke()
             },
-        elevation = 4.dp,
+        elevation = 0.dp,
         shape = RoundedCornerShape(50.dp),
-        border = BorderStroke(2.dp, Color(0xFF0022A3))
+        border = BorderStroke(2.dp, MaterialTheme.colors.primary),
+        backgroundColor = RB_Transparent
     ) {
         Row(
             modifier = Modifier
@@ -54,7 +57,7 @@ fun AddNewItemButtonCard(
                     .size(35.dp),
                 imageVector = Icons.Rounded.AddCircle,
                 contentDescription = "Add Button Icon",
-                tint = Color(0xFF0022A3)
+                tint = MaterialTheme.colors.primary
             )
             Text(
                 text = buttonText,
