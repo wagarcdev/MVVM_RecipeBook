@@ -14,7 +14,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -22,7 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.VerticalNumberPicker
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +33,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun EditRecipeTimeButtonDisplay(
+    catalogViewModel: CatalogViewModel,
     recipeDraft: Recipe,
     coroutineScope: CoroutineScope
 ) {
@@ -78,6 +81,7 @@ fun EditRecipeTimeButtonDisplay(
             title = "Recipe Preparation Time",
             dialogContent = {
                 RecipePrepTimeDialogContent(
+                    catalogViewModel,
                     sizeScale,
                     recipeDraftTime,
                     coroutineScope,
@@ -119,7 +123,7 @@ fun EditRecipeTimeButtonDisplay(
                         .height(20.dp),
                     painter = painterResource(id = R.drawable.ic_clock),
                     contentDescription = "Tempo de Preparo ",
-                    tint = Color(0xFF7A7A7A)
+                    tint = RB_White
                 )
 
 
@@ -134,7 +138,7 @@ fun EditRecipeTimeButtonDisplay(
                     Text(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color(0xFF7A7A7A),
+                        color = RB_White,
                         text = recipeTimeNullString
                     )
                 }
@@ -147,7 +151,7 @@ fun EditRecipeTimeButtonDisplay(
                     Text(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color(0xFF7A7A7A),
+                        color =  RB_White,
                         text =
                         if (recipeDraftTime.value < 60) {
                             " ${recipeDraftTime.value}min"
@@ -171,6 +175,7 @@ fun EditRecipeTimeButtonDisplay(
 
 @Composable
 private fun RecipePrepTimeDialogContent(
+    catalogViewModel: CatalogViewModel,
     sizeScale: Dp,
     recipeDraftTime: MutableState<Int>,
     coroutineScope: CoroutineScope,
@@ -190,7 +195,7 @@ private fun RecipePrepTimeDialogContent(
                     .size(sizeScale),
                 painter = painterResource(id = R.drawable.ic_clock),
                 contentDescription = "Tempo de Preparo ",
-                tint = Color(0xFF7A7A7A)
+                tint =  RB_Black
             )
         }
 
@@ -201,9 +206,9 @@ private fun RecipePrepTimeDialogContent(
             default = recipeDraftTime.value.div(60),
             onValueChange = {
                 coroutineScope.launch(Dispatchers.Default) {
-//                                recipeHours.value = recipeHours.value.plus(it)
+
                     recipeHours.value = it
-                    recipeDraftTime.value = (recipeHours.value * 60) + (recipeMinutes.value)
+                    catalogViewModel.recipe.recipeTime = (recipeHours.value * 60) + (recipeMinutes.value)
                 }
             }
         )
@@ -221,9 +226,8 @@ private fun RecipePrepTimeDialogContent(
             default = recipeDraftTime.value.rem(60),
             onValueChange = {
                 coroutineScope.launch(Dispatchers.Default) {
-//                                recipeMinutes.value = recipeMinutes.value.plus(it)
                     recipeMinutes.value = it
-                    recipeDraftTime.value = (recipeHours.value * 60) + (recipeMinutes.value)
+                    catalogViewModel.recipe.recipeTime = (recipeHours.value * 60) + (recipeMinutes.value)
                 }
 
             }

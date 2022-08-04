@@ -13,13 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RecipeInputText
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
 import kotlinx.coroutines.CoroutineScope
@@ -89,7 +89,7 @@ fun EditRecipeNameButtonDisplay(
                     modifier = Modifier
                         .padding(4.dp),
                     text = recipeDraftTitle.value,
-                    color = Color(0xFF000000),
+                    color = RB_White,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.ExtraBold,
                     textAlign = TextAlign.Center

@@ -19,10 +19,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.*
@@ -42,7 +39,11 @@ import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeNameButtonDisplay
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeTimeButtonDisplay
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Red
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
+import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.GradientColumn
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.SelectOptionAlertDialogButton
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
 import kotlinx.coroutines.Dispatchers
@@ -137,12 +138,17 @@ fun ImageAndTitleSelectorRowItem(
         recipeDraftImage.value = photoFilepath
     }
 
+    val height = 240.dp
+
 
     Surface(
+        modifier = Modifier
+            .padding(0.dp)
+            .height(height),
         color = RB_Transparent
     ) {
 
-        val height = 240.dp
+
 
         Row(
             modifier = Modifier
@@ -155,30 +161,25 @@ fun ImageAndTitleSelectorRowItem(
 
             Card(
                 modifier = Modifier
+
                     .padding(0.dp)
                     .height(height)
                     .fillMaxWidth(),
                 elevation = 5.dp,
                 shape = RectangleShape,
-                border = BorderStroke(0.dp, Color(0x00000000))
+                border = BorderStroke(0.dp, Color(0x00000000)),
+                backgroundColor = RB_Black
             ) {
 
                 AsyncImage(
-                    model =
-//                    displayBitmap.value ?:
-//                    recipeDraftImage.value ?:
-                    ImageRequest.Builder(LocalContext.current)
+                    model = ImageRequest.Builder(LocalContext.current)
                         .data(catalogViewModel.recipe.imageFilepath)
                         .crossfade(true)
                         .fallback(R.drawable.no_image)
-                        .build()
-
-                    , contentDescription = "",
+                        .build(),
+                    contentDescription = "",
                     contentScale =
-                    if (
-                        catalogViewModel.recipe.imageFilepath != null
-//                        || displayBitmap.value != null
-                    ) {
+                    if (catalogViewModel.recipe.imageFilepath != null) {
                         ContentScale.FillWidth
                     } else {
                         ContentScale.Fit
@@ -187,13 +188,19 @@ fun ImageAndTitleSelectorRowItem(
             }
         }
 
-        Column(
+        GradientColumn(
             modifier = Modifier
-                .padding(start = 10.dp, end = 10.dp, bottom = 0.dp)
-                .height(height)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom
+                .systemBarsPadding()
+                .fillMaxWidth(1f),
+            columnHorizontalAlignment = Alignment.CenterHorizontally,
+            columnVerticalArrangement = Arrangement.Bottom ,
+            topSpacerTransition = false,
+            bottomSpacerTransition = false,
+            columnTopColor = Color(0x00000000),
+            columnMiddleColor = Color(0x33000000),
+            columnBottomColor = Color(0xB3000000),
+            contentHorizontalAlignment = Alignment.CenterHorizontally,
+            contentVerticalArrangement =  Arrangement.SpaceBetween,
         ) {
             Row(
                 modifier = Modifier
@@ -216,7 +223,7 @@ fun ImageAndTitleSelectorRowItem(
                     verticalArrangement = Arrangement.Bottom
                 ) {
 
-                    EditRecipeTimeButtonDisplay(recipe, coroutineScope)
+                    EditRecipeTimeButtonDisplay(catalogViewModel, recipe, coroutineScope)
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -224,20 +231,7 @@ fun ImageAndTitleSelectorRowItem(
 
                 }
 
-                ShowAlertDialog(
-                    isDialogOpen = isDialogOpen,
-                    dialogContent = {
-                        ImageSelectorAlertDialogContent(
-                            context,
-                            galleryLauncher,
-                            isCameraSelected,
-                            permissionLauncher,
-                            isDialogOpen,
-                            cameraLauncher
-                        )
-                    },
-                    defaultBottomBar = false,
-                )
+
 
                 Column(
                     modifier = Modifier
@@ -264,7 +258,7 @@ fun ImageAndTitleSelectorRowItem(
                             shape = RoundedCornerShape(50.dp),
                             border = BorderStroke(
                                 width = 2.dp,
-                                color = Color(0xFFFF2929)
+                                color = RB_Red
                             ),
                             onClick = {
                                 coroutineScope.launch(Dispatchers.Default) {
@@ -287,15 +281,13 @@ fun ImageAndTitleSelectorRowItem(
                                         .size(35.dp),
                                     imageVector = Icons.Rounded.Delete,
                                     contentDescription = "Delete Image Button",
-                                    tint = Color(0xFFFF2929)
+                                    tint = RB_Red
 
 
                                 )
                             }
                         }
                         /** DELETE Image Button*/
-
-
                     }
                 }
 
@@ -313,21 +305,11 @@ fun ImageAndTitleSelectorRowItem(
                         modifier = Modifier
                             .padding(horizontal = 6.dp)
                             .size(60.dp),
-                        backgroundColor =
-                        if (recipeDraftImage.value == null) {
-                            Color(0x00000000)
-                        } else {
-                            Color(0x1A000000)
-                        },
+                        backgroundColor = RB_Transparent,
                         shape = RoundedCornerShape(50.dp),
                         border = BorderStroke(
                             2.dp,
-                            color =
-                            if (recipeDraftImage.value == null) {
-                                Color(0xFF002F9C)
-                            } else {
-                                Color(0xFFFCFCFC)
-                            }
+                            color = MaterialTheme.colors.primary
                         ),
                         onClick = { isDialogOpen.value = true }
                     ) {
@@ -350,20 +332,31 @@ fun ImageAndTitleSelectorRowItem(
                                     }
                                 ),
                                 contentDescription = "Change Image Button",
-                                tint =
-                                if (recipeDraftImage.value == null) {
-                                    Color(0xFF002F9C)
-                                } else {
-                                    Color(0xFFFCFCFC)
-                                }
+                                tint = RB_White
                             )
 
                         }
                     }
                     /** CHANGE Image Button*/
-
-
                 }
+
+
+                /** NOT IN LAYOUT ARRANGEMENT */
+                ShowAlertDialog(
+                    isDialogOpen = isDialogOpen,
+                    dialogContent = {
+                        ImageSelectorAlertDialogContent(
+                            context,
+                            galleryLauncher,
+                            isCameraSelected,
+                            permissionLauncher,
+                            isDialogOpen,
+                            cameraLauncher
+                        )
+                    },
+                    defaultBottomBar = false,
+                )
+                /** NOT IN LAYOUT ARRANGEMENT */
 
 
             }
