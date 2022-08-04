@@ -1,23 +1,17 @@
 package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.LocalOverScrollConfiguration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -58,9 +52,9 @@ fun DetailScreenContent(recipe: Recipe) {
 private fun TabRowPart(pagerState: PagerState) {
 
     val tabTextAndIcon = listOf(
-        "tab 1" to R.drawable.ic_add_circle,
-        "tab 2" to R.drawable.ic_add_circle,
-        "tab 3" to R.drawable.ic_add_circle
+        "Recipe" to R.drawable.new_recipe_icon_flat_white,
+        "Info Charts" to R.drawable.balance_flat_white_icon,
+        "Costs" to R.drawable.ic_dollar
     )
 
 
@@ -105,39 +99,43 @@ private fun TabRowPart(pagerState: PagerState) {
                 Column(
                     modifier = Modifier
                         .padding(10.dp)
-                        .height(50.dp)
+                        .wrapContentHeight()
                         .fillMaxWidth(),
                     verticalArrangement = Center,
                     horizontalAlignment = CenterHorizontally
                 ) {
                     
                     Box(modifier = Modifier
-                        .size(30.dp)
+                        .size(20.dp)
                         .align(CenterHorizontally)) {
-                        Image(
+                        Icon(
                             painter = painterResource(id = pair.second),
                             contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(CircleShape)
+                            tint =
+                            if(selected) {
+                                RB_White
+                            } else {
+                                RB_White_75
+                            }
                         )
                     }
+
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
                         text = pair.first,
                         modifier = Modifier.align(CenterHorizontally),
                         fontSize =
                         if(selected) {
-                            12.sp
+                            14.sp
                         } else {
-                            10.sp
+                            12.sp
                         },
                         color =
                         if(selected) {
-                            RB_Black
+                            RB_White
                         } else {
-                            RB_Black_50
+                            RB_White_75
                         },
                         fontWeight =
                         if(selected) {
