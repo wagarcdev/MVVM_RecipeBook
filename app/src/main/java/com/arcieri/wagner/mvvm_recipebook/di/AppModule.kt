@@ -2,8 +2,8 @@ package com.arcieri.wagner.mvvm_recipebook.di
 
 import android.content.Context
 import androidx.room.Room
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeBookDatabaseDAO
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeDatabase
+import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeBookDatabaseDAO
+import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

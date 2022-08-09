@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.arcieri.wagner.mvvm_recipebook.data.CatalogData
+import com.arcieri.wagner.mvvm_recipebook.data.local.CatalogData
 import com.arcieri.wagner.mvvm_recipebook.navigation.Screens
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel

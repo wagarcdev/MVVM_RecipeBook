@@ -1,6 +1,6 @@
 package com.arcieri.wagner.mvvm_recipebook.repository
 
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeBookDatabaseDAO
+import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeBookDatabaseDAO
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.utils.Resource
 import kotlinx.coroutines.Dispatchers

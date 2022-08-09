@@ -3,7 +3,7 @@ package com.arcieri.wagner.mvvm_recipebook.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.activity.ComponentActivity
-import com.arcieri.wagner.mvvm_recipebook.data.CatalogData
+import com.arcieri.wagner.mvvm_recipebook.data.local.CatalogData
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 
 fun getDefaultDatabase(catalogViewModel: CatalogViewModel, context: Context) {

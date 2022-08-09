@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.data
+package com.arcieri.wagner.mvvm_recipebook.data.local
 
 import android.content.Context
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient

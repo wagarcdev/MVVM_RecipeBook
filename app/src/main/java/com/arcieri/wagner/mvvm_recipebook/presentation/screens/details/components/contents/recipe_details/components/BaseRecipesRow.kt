@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.arcieri.wagner.mvvm_recipebook.data.CatalogData
+import com.arcieri.wagner.mvvm_recipebook.data.local.CatalogData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RecipeTimeColumn
 

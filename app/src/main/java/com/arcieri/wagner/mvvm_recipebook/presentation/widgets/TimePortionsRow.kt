@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeData
+import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 
 @Composable

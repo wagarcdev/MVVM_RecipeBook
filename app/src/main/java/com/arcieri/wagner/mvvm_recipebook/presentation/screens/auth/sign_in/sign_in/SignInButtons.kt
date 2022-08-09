@@ -20,9 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.MainMenuButton
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.MainMenuButton
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.*
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,6 +47,7 @@ fun SignInButtons(
     Column(
         modifier = Modifier
             .imePadding()
+            .navigationBarsWithImePadding()
             .defaultMinSize(300.dp)
             .wrapContentHeight()
             .fillMaxWidth(),

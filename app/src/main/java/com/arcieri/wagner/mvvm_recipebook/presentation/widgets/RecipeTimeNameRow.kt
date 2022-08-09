@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arcieri.wagner.mvvm_recipebook.data.RecipeData
+import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
 
@@ -24,24 +24,11 @@ fun RecipeInfoColumnRows(
 ) {
     Column(
         modifier = Modifier
+            .padding(bottom = 8.dp)
             .wrapContentHeight()
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Bottom
     ) {
-
-        Row(
-            modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth()
-                .padding(start = 20.dp, bottom = 0.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
-        ) {
-
-            if (recipe.portions > 0 || recipe.recipeTime > 0) {
-                TimeAndPortionsColumn(recipe)
-            }
-        }
 
         Row(
             modifier = Modifier
@@ -62,6 +49,21 @@ fun RecipeInfoColumnRows(
                 textAlign = TextAlign.Start,
                 lineHeight = 15.sp
             )
+        }
+
+        Row(
+            modifier = Modifier
+                .defaultMinSize(minHeight = 20.dp)
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .padding(start = 20.dp, bottom = 0.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom
+        ) {
+
+            if (recipe.portions > 0 || recipe.recipeTime > 0) {
+                TimeAndPortionsColumn(recipe)
+            }
         }
     }
 
