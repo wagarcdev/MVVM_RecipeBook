@@ -21,20 +21,23 @@ fun ScreenDetails(
     catalogViewModel: CatalogViewModel,
 ) {
 
-    val recipe = catalogViewModel.recipe
+
+    catalogViewModel.currentRecipe?.let { recipe ->
+        Scaffold(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .background(Color(0xFFFFFFFF))
+                .fillMaxSize(),
+            topBar = { DetailScreenTopBar(recipe) },
+            content =  { DetailScreenContent(catalogViewModel) },
+            floatingActionButton = { recipe.id?.let { EditRecipeFAB(catalogViewModel, it) } },
+            floatingActionButtonPosition = FabPosition.Center,
+            isFloatingActionButtonDocked = false
+        )
+    }
 
 
-    Scaffold(
-        modifier = Modifier
-            .navigationBarsPadding()
-            .background(Color(0xFFFFFFFF))
-            .fillMaxSize(),
-        topBar = { DetailScreenTopBar(recipe)  },
-        content =  { DetailScreenContent(recipe) },
-        floatingActionButton = { EditRecipeFAB(catalogViewModel, recipe) },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = false
-    )
+
 }
 
 

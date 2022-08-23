@@ -65,7 +65,7 @@ fun EditMethodsSection(
 //        val recipeDraftMethods = emptyList<String>().toMutableList()
         val recipeDraftMethods = remember { mutableListOf<String>() }
 
-        catalogViewModel.recipe.recipeMethods.forEach { method ->
+        catalogViewModel.currentRecipe?.recipeMethods?.forEach { method ->
             recipeDraftMethods.add(method)
         }
 

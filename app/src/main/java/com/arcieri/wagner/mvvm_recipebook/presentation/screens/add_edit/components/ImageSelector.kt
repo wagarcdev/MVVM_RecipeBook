@@ -63,10 +63,6 @@ fun ImageTitleAndTimeSelectorRowItem(
      * Add systemBarPadding to buttons on ImageRow
      * */
 
-    val recipe = catalogViewModel.recipe
-
-    val recipeDraftImage = remember { mutableStateOf(recipe.imageFilepath) }
-
     val coroutineScope = rememberCoroutineScope()
 
     val context = LocalContext.current
@@ -98,7 +94,10 @@ fun ImageTitleAndTimeSelectorRowItem(
         photoFilepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null)
 
         coroutineScope.launch {
-            catalogViewModel.recipe.imageFilepath = photoFilepath
+            catalogViewModel.currentRecipe?.let {
+                it.imageFilepath = photoFilepath
+                catalogViewModel.updateRecipe(it)
+            }
         }
 
     }
@@ -114,7 +113,10 @@ fun ImageTitleAndTimeSelectorRowItem(
         photoFilepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), btm, "Title", null)
 
         coroutineScope.launch {
-            catalogViewModel.recipe.imageFilepath = photoFilepath
+            catalogViewModel.currentRecipe?.let {
+                it.imageFilepath = photoFilepath
+                catalogViewModel.updateRecipe(it)
+            }
         }
 
     }
@@ -134,9 +136,7 @@ fun ImageTitleAndTimeSelectorRowItem(
         }
     }
 
-    LaunchedEffect( photoFilepath ) {
-        recipeDraftImage.value = photoFilepath
-    }
+
 
     val height = 240.dp
 
@@ -173,13 +173,13 @@ fun ImageTitleAndTimeSelectorRowItem(
 
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(catalogViewModel.recipe.imageFilepath)
+                        .data(catalogViewModel.currentRecipe?.imageFilepath)
                         .crossfade(true)
                         .fallback(R.drawable.no_image)
                         .build(),
                     contentDescription = "",
                     contentScale =
-                    if (catalogViewModel.recipe.imageFilepath != null) {
+                    if (catalogViewModel.currentRecipe?.imageFilepath != null) {
                         ContentScale.FillWidth
                     } else {
                         ContentScale.Fit
@@ -212,7 +212,6 @@ fun ImageTitleAndTimeSelectorRowItem(
 
                 val isDialogOpen = remember { mutableStateOf(false) }
 
-                val recipeDraftTitle = remember { mutableStateOf(recipe.name) }
                 val coroutineScope = rememberCoroutineScope()
 
 
@@ -227,7 +226,7 @@ fun ImageTitleAndTimeSelectorRowItem(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    EditRecipeNameButtonDisplay(itemPadding, recipeDraftTitle, coroutineScope)
+                    EditRecipeNameButtonDisplay(catalogViewModel, itemPadding, coroutineScope)
 
                 }
 
@@ -240,54 +239,55 @@ fun ImageTitleAndTimeSelectorRowItem(
                     verticalArrangement = Arrangement.Bottom
                 ) {
 
-                    AnimatedVisibility(
-                        visible = (catalogViewModel.recipe.imageFilepath != null),
-                        enter = EnterTransition.None,
-                        exit = ExitTransition.None
-                    ) {
-
-                        val coroutineScope = rememberCoroutineScope()
-
-
-                        /** DELETE Image Button*/
-                        Card(
-                            modifier = Modifier
-                                .padding(horizontal = 6.dp)
-                                .size(60.dp),
-                            backgroundColor = Color(0x1A000000),
-                            shape = RoundedCornerShape(50.dp),
-                            border = BorderStroke(
-                                width = 2.dp,
-                                color = RB_Red
-                            ),
-                            onClick = {
-                                coroutineScope.launch(Dispatchers.Default) {
-                                    catalogViewModel.recipe.imageFilepath = null
-                                }
-
-//                                    recipeDraft.image = null
-
-                            }
+                    if (catalogViewModel.currentRecipe != null) {
+                        AnimatedVisibility(
+                            visible = (catalogViewModel.currentRecipe!!.imageFilepath != null),
+                            enter = EnterTransition.None,
+                            exit = ExitTransition.None
                         ) {
-                            Row(
+
+                            val coroutineScope = rememberCoroutineScope()
+
+
+                            /** DELETE Image Button*/
+                            Card(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
+                                    .padding(horizontal = 6.dp)
+                                    .size(60.dp),
+                                backgroundColor = Color(0x1A000000),
+                                shape = RoundedCornerShape(50.dp),
+                                border = BorderStroke(
+                                    width = 2.dp,
+                                    color = RB_Red
+                                ),
+                                onClick = {
+                                    coroutineScope.launch(Dispatchers.Default) {
+                                        catalogViewModel.currentRecipe!!.imageFilepath = null
+                                        catalogViewModel.updateRecipe(catalogViewModel.currentRecipe!!)
+                                    }
+                                }
                             ) {
-                                Icon(
+
+                                Row(
                                     modifier = Modifier
-                                        .size(35.dp),
-                                    imageVector = Icons.Rounded.Delete,
-                                    contentDescription = "Delete Image Button",
-                                    tint = RB_Red
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(35.dp),
+                                        imageVector = Icons.Rounded.Delete,
+                                        contentDescription = "Delete Image Button",
+                                        tint = RB_Red
 
 
-                                )
+                                    )
+                                }
                             }
+                            /** DELETE Image Button*/
                         }
-                        /** DELETE Image Button*/
                     }
                 }
 
@@ -320,20 +320,22 @@ fun ImageTitleAndTimeSelectorRowItem(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Icon(
-                                modifier = Modifier
-                                    .size(35.dp),
-                                painter =
-                                painterResource(
-                                    if (catalogViewModel.recipe.imageFilepath == null) {
-                                        R.drawable.ic_add_image
-                                    } else {
-                                        R.drawable.ic_change_arrows
-                                    }
-                                ),
-                                contentDescription = "Change Image Button",
-                                tint = RB_White
-                            )
+                            if (catalogViewModel.currentRecipe != null) {
+                                Icon(
+                                    modifier = Modifier
+                                        .size(35.dp),
+                                    painter =
+                                    painterResource(
+                                        if (catalogViewModel.currentRecipe?.imageFilepath == null) {
+                                            R.drawable.ic_add_image
+                                        } else {
+                                            R.drawable.ic_change_arrows
+                                        }
+                                    ),
+                                    contentDescription = "Change Image Button",
+                                    tint = RB_White
+                                )
+                            }
 
                         }
                     }

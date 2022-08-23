@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -17,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_chart.RecipeChartsContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.RecipeDetailsContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.*
@@ -27,7 +28,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun DetailScreenContent(recipe: Recipe) {
+fun DetailScreenContent(
+    catalogViewModel: CatalogViewModel,
+) {
 
     val pagerState = rememberPagerState()
     
@@ -39,8 +42,8 @@ fun DetailScreenContent(recipe: Recipe) {
         TabRowPart(pagerState = pagerState)
 
         PagerContent(
+            catalogViewModel = catalogViewModel,
             pagerState = pagerState,
-            recipe = recipe
         )
     }
 
@@ -144,23 +147,18 @@ private fun TabRowPart(pagerState: PagerState) {
                             FontWeight.Normal
                         },
                     )
-
-
                 }
-                
             }
-            
         }
     }
-
 }
 
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun PagerContent(
+    catalogViewModel: CatalogViewModel,
     pagerState: PagerState,
-    recipe: Recipe
 ) {
     
     CompositionLocalProvider( LocalOverScrollConfiguration provides null ) {
@@ -168,12 +166,13 @@ private fun PagerContent(
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
             count = 3,
-            state = pagerState
+            state = pagerState,
+            verticalAlignment = Alignment.Top
         ) { pager ->
 
             when (pager) {
-                0 -> { RecipeDetailsContent(recipe) }
-                1 -> { RecipeChartsContent(recipe)  }
+                0 -> { RecipeDetailsContent(catalogViewModel) }
+                1 -> { RecipeChartsContent(catalogViewModel)  }
                 2 -> {}
             }
 

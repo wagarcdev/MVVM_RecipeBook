@@ -42,7 +42,7 @@ fun EditBaseRecipesSection(catalogViewModel: CatalogViewModel, itemPadding: Dp) 
         Text(
             modifier = Modifier
                 .padding(horizontal = 10.dp),
-            text = "Bases para ${catalogViewModel.recipe.name}",
+            text = "Bases para ${catalogViewModel.currentRecipe?.name}",
             color = Color(0xFF000000),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
@@ -52,10 +52,9 @@ fun EditBaseRecipesSection(catalogViewModel: CatalogViewModel, itemPadding: Dp) 
     val baseRecipes: MutableList<Recipe> = emptyList<Recipe>().toMutableList()
     val context = LocalContext.current
 
-    for (base in catalogViewModel.recipe.baseRecipes) {
+    catalogViewModel.currentRecipe?.baseRecipes?.forEach { base ->
 
         baseRecipes += catalogViewModel.recipeList.collectAsState().value.filter { it.name == base }
-
     }
 
     LazyRow(

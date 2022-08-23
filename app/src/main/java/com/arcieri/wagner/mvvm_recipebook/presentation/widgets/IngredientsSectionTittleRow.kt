@@ -24,7 +24,7 @@ fun IngredientsSectionTittleRow() {
 
         Text(
             modifier = Modifier
-                .padding(horizontal = 14.dp),
+                .padding(horizontal = 10.dp),
             text = "Ingredients",
             color = Color(0xFF000000),
             fontSize = 20.sp,

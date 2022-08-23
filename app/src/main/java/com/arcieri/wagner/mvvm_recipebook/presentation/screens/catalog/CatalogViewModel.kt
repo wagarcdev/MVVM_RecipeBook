@@ -10,7 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.repository.RecipeBookRepository
-import com.arcieri.wagner.mvvm_recipebook.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,10 +29,9 @@ class CatalogViewModel @Inject constructor (
     private var _recipeList = MutableStateFlow<List<Recipe>>(emptyList())
     val recipeList = _recipeList.asStateFlow()
 
-    var recipe by mutableStateOf(
-        Recipe(
-            name = "NEW RECIPE",
-        )
+
+    var currentRecipe by mutableStateOf<Recipe?>(
+        null
     )
         private set
 
@@ -61,16 +59,18 @@ class CatalogViewModel @Inject constructor (
         }
     }
 
-
-
-
-
-    fun currentRecipe(currentRecipe: Recipe) {
-        recipe = currentRecipe
+    fun setRecipe(recipe: Recipe) {
+        currentRecipe = recipe
     }
 
-    fun newRecipe() {
-        recipe = Recipe(name = "NEW RECIPE")
+    fun newRecipe(): Long {
+        viewModelScope.launch {
+            addRecipe(
+                Recipe(name = "NEW RECIPE")
+            )
+        }
+
+        return -1L
     }
 
 
@@ -88,20 +88,28 @@ class CatalogViewModel @Inject constructor (
         }
     }
 
-    suspend fun getRecipeInfo(recipeId: Long): Resource<Recipe> {
-        return repository.getRecipeInfo(recipeId)
-    }
+
 
 
     suspend fun addCatalog(recipesList: List<Recipe>) {
         recipesList.forEach { recipe ->
-            viewModelScope.launch {
-                repository.addRecipe(recipe)
-            }
+
         }
     }
 
-    suspend fun addRecipe(recipe: Recipe) = viewModelScope.launch { repository.addRecipe(recipe) }
+    suspend fun addRecipe(recipe: Recipe): Long {
+
+        var recipeId: Long = -1
+
+        viewModelScope.launch {
+            recipeId = repository.addRecipe(recipe)
+        }.join()
+
+        return recipeId
+    }
+
+
+
     suspend fun updateRecipe(recipe: Recipe) = viewModelScope.launch { repository.updateRecipe(recipe) }
     suspend fun removeRecipe(recipe: Recipe) = viewModelScope.launch { repository.deleteRecipe(recipe) }
     suspend fun removeAllRecipes() = viewModelScope.launch { repository.deleteAllRecipes() }
@@ -113,3 +121,4 @@ class CatalogViewModel @Inject constructor (
 
 
 }
+

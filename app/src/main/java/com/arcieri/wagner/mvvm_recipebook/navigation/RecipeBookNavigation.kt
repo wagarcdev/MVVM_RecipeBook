@@ -4,12 +4,15 @@ import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.ScreenAddEditRecipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.AuthScreen
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
@@ -71,11 +74,24 @@ fun RecipeBookNavigation() {
         }
 
         /** AddEditRecipeScreen */
-        composable(Screens.AddEditRecipeScreen.name) {
+        composable(
+            route = Screens.AddEditRecipeScreen.name + "/{recipeId}",
+            arguments = listOf(navArgument("recipeId") {
+                type = NavType.LongType
+                defaultValue = -1
+            })
+        ) {
 
-            ScreenAddEditRecipe(
-                catalogViewModel = catalogViewModel,
-            )
+            val recipeId = remember {
+                it.arguments?.getLong("recipeId")
+            }
+
+            if (recipeId != null) {
+                ScreenAddEditRecipe(
+                    catalogViewModel = catalogViewModel,
+                    recipeId = recipeId
+                )
+            }
 
         }
 

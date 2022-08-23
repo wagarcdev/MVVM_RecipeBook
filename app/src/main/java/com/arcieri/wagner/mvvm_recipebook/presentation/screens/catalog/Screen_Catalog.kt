@@ -67,7 +67,7 @@ fun ScreenCatalog(catalogViewModel: CatalogViewModel) {
                             recipe = recipeDatabase[index],
                             onClick = {
 
-                                catalogViewModel.currentRecipe(recipeDatabase[index])
+                                catalogViewModel.setRecipe(recipeDatabase[index])
 
                                 catalogViewModel.navHostController
                                     .navigate(route = Screens.DetailScreen.name)

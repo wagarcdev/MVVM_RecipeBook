@@ -10,13 +10,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.PieChart
 import com.arcieri.wagner.mvvm_recipebook.utils.RandomColors
 
 @Composable
-fun RecipeChartsContent(recipe: Recipe) {
+fun RecipeChartsContent(catalogViewModel: CatalogViewModel) {
 
-    val ingredients = recipe.ingredients
+    val ingredients = catalogViewModel.currentRecipe?.ingredients
 
     val weightIngredients: MutableList<Ingredient> = arrayListOf()
     val weightIngredientsPoints: MutableList<Float> = arrayListOf()
@@ -30,7 +31,7 @@ fun RecipeChartsContent(recipe: Recipe) {
     val totalIngredientsPoints: MutableList<Float> = arrayListOf()
     val totalIngredientsColors: MutableList<Color> = arrayListOf()
 
-    ingredients.forEach { ingredient ->
+    ingredients?.forEach { ingredient ->
 
         if (ingredient.isWeight) {
 
@@ -75,7 +76,7 @@ fun RecipeChartsContent(recipe: Recipe) {
             horizontalAlignment = Alignment.Start
         ) {
 
-            item { IngredientsCharts(recipe) }
+            item { catalogViewModel.currentRecipe?.let { IngredientsCharts(it) } }
 
         }
     }

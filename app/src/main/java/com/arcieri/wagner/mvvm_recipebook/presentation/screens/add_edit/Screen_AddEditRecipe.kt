@@ -17,10 +17,8 @@ import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogVi
 @Composable
 fun ScreenAddEditRecipe(
     catalogViewModel: CatalogViewModel,
+    recipeId: Long
 ) {
-
-    val recipe = catalogViewModel.recipe
-
 
     val itemPadding = 5.dp
 

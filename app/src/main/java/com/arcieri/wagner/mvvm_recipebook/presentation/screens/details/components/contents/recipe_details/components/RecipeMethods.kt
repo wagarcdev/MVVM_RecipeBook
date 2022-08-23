@@ -17,7 +17,7 @@ fun RecipeMethods(recipe: Recipe) {
 
     Column(
         modifier = Modifier
-            .padding(horizontal = 15.dp)
+            .padding(horizontal = 0.dp)
             .wrapContentHeight()
             .fillMaxSize(1f),
         horizontalAlignment = Alignment.CenterHorizontally

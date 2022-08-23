@@ -34,7 +34,7 @@ fun EditIngredientsSection(
 
         IngredientsSectionTittleRow()
 
-        catalogViewModel.recipe.ingredients.forEach { ingredient ->
+        catalogViewModel.currentRecipe?.ingredients?.forEach { ingredient ->
             ingredient.adjustMeasuringUnits()
 
             AnimatedCardView(

@@ -57,7 +57,10 @@ fun MainMenuButtons(
             centerRightGradientColor = RB_Violet,
             rightGradientColor = RB_VioletLight,
             fontColor = RB_White
-        ) { }
+        ) {
+            catalogViewModel.navHostController.navigate(route = Screens.TestScreen.name)
+
+        }
 
         /**   Search on the Web     */
         MainMenuButton(
@@ -109,8 +112,9 @@ fun MainMenuButtons(
             rightGradientColor = RB_GreenLight,
             fontColor = RB_White
         ) {
-            catalogViewModel.newRecipe()
-            catalogViewModel.navHostController.navigate(route = Screens.AddEditRecipeScreen.name)
+            val recipeId = catalogViewModel.newRecipe()
+
+            catalogViewModel.navHostController.navigate(route = Screens.AddEditRecipeScreen.name+"/$recipeId")
         }
 
         var db = AppModule.providesAppDatabase(context).isOpen

@@ -17,8 +17,11 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
 
+
+        //Transparency for StatusBar
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+1121225565165
 
         /**  TODO
          *
@@ -36,6 +39,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             RecipeBookApp {
+
 
                 RecipeBookNavigation()
 

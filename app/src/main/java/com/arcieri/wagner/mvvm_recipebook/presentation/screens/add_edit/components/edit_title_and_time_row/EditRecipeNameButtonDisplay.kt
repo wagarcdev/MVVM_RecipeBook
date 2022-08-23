@@ -8,7 +8,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RecipeInputText
@@ -28,8 +28,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun EditRecipeNameButtonDisplay(
+    catalogViewModel: CatalogViewModel,
     itemPadding: Dp,
-    recipeDraftTitle: MutableState<String>,
     coroutineScope: CoroutineScope
 ) {
     Column(
@@ -39,26 +39,34 @@ fun EditRecipeNameButtonDisplay(
 
         val isDialogOpen = remember { mutableStateOf(false) }
 
+        val recipe = catalogViewModel.currentRecipe
+
+        val text = remember { mutableStateOf(recipe?.name ?: "") }
+
 
         ShowAlertDialog(
             isDialogOpen = isDialogOpen,
             title = "Recipe Name",
             dialogContent = {
-                RecipeInputText(
-                    modifier = Modifier
-                        .padding(itemPadding),
-                    text = recipeDraftTitle.value,
-                    label = "Recipe Title",
-                    textAlignment = TextAlign.End,
-                    textFontSize = 22.sp,
-                    labelFontSize = 16.sp,
-                    maxLines = 4,
-                    onTextChange = {
-                        coroutineScope.launch(Dispatchers.Default) {
-                            recipeDraftTitle.value = it
+                if (recipe != null) {
+                    RecipeInputText(
+                        modifier = Modifier
+                            .padding(itemPadding),
+                        text = text.value,
+                        label = "Recipe Title",
+                        textAlignment = TextAlign.End,
+                        textFontSize = 22.sp,
+                        labelFontSize = 16.sp,
+                        maxLines = 4,
+                        onTextChange = {
+                            coroutineScope.launch(Dispatchers.Default) {
+                                text.value = it
+                                recipe.name = it
+                                catalogViewModel.updateRecipe(recipe)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             },
             defaultBottomBar = true
         )
@@ -85,15 +93,17 @@ fun EditRecipeNameButtonDisplay(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Text(
-                    modifier = Modifier
-                        .padding(4.dp),
-                    text = recipeDraftTitle.value,
-                    color = RB_White,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    textAlign = TextAlign.Center
-                )
+                if (recipe != null) {
+                    Text(
+                        modifier = Modifier
+                            .padding(4.dp),
+                        text = text.value,
+                        color = RB_White,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        textAlign = TextAlign.Center
+                    )
+                }
 
             }
 
