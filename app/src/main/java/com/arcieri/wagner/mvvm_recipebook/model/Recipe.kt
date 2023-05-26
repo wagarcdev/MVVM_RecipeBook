@@ -28,7 +28,7 @@ data class Recipe (
     var portions: Int = 0,
 
     @ColumnInfo(name = "recipe_time")
-    var recipeTime: Int = 0,
+    var recipeTimeInMinutes: Int = 0,
 
     @ColumnInfo(name = "recipe_bases")
     var baseRecipes: List<String> = emptyList()

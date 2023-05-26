@@ -2,6 +2,7 @@ package com.arcieri.wagner.mvvm_recipebook.repository
 
 import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeBookDatabaseDAO
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
+import com.arcieri.wagner.mvvm_recipebook.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate
@@ -19,6 +20,10 @@ class RecipeBookRepository @Inject constructor(private val recipeBookDatabaseDAO
     suspend fun deleteAllRecipes() = recipeBookDatabaseDAO.deleteAllRecipes()
 
     suspend fun getRecipe(recipeId: Long): Recipe = recipeBookDatabaseDAO.getRecipeById(id = recipeId)
+
+    suspend fun addUser(user: User): Long = recipeBookDatabaseDAO.insertUser(user)
+
+    suspend fun getUserByEmail(email: String): User = recipeBookDatabaseDAO.getUserByEmail(email)
 
     fun getAllRecipes(): Flow<List<Recipe>> =
         recipeBookDatabaseDAO.getRecipes().flowOn(Dispatchers.IO).conflate()

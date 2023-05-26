@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.arcieri.wagner.mvvm_recipebook">
+    xmlns:tools="http://schemas.android.com/tools">
 
 
 
@@ -27,7 +26,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize"
-        android:theme="@style/Theme.MVVM_RecipeBook">
+            android:theme="@style/Theme.MVVM_RecipeBook">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

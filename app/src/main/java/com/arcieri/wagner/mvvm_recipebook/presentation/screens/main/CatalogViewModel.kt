@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.main
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -6,8 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.repository.RecipeBookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,11 +21,10 @@ class CatalogViewModel @Inject constructor (
     private val repository: RecipeBookRepository
 ): ViewModel() {
 
-    lateinit var navHostController: NavHostController
-    lateinit var navController: NavController
+    var recipeList = MutableStateFlow<List<Recipe>>(emptyList())
+        private set
 
-    private var _recipeList = MutableStateFlow<List<Recipe>>(emptyList())
-    val recipeList = _recipeList.asStateFlow()
+    var test = arrayListOf<String>()
 
 
     var currentRecipe by mutableStateOf<Recipe?>(
@@ -40,6 +37,33 @@ class CatalogViewModel @Inject constructor (
 
     private var recipeMinutes = 0
     private var recipeHours = 0
+
+    init {
+
+        viewModelScope.launch {
+
+            /**  ADD Default Catalog to generate DB file
+             * ONLY use on First Build/Run of DB version */
+//            viewModelScope.launch { defaultCatalog.forEach { addRecipe(it) } }.join()
+            /** ---- */
+            getAllRecipes()
+        }
+
+    }
+
+    private fun getAllRecipes() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repository.getAllRecipes().distinctUntilChanged().collect { listOfRecipes ->
+                if (listOfRecipes.isEmpty()) {
+                    Log.d("CATALOG", "EMPTY LIST OF RECIPES ")
+                } else {
+                    recipeList.value = listOfRecipes
+                }
+            }
+        }
+    }
+
 
     fun changeMinutes(minutes: Int) {
 
@@ -74,26 +98,19 @@ class CatalogViewModel @Inject constructor (
     }
 
 
-    init {
 
-        viewModelScope.launch(Dispatchers.IO) {
 
-            repository.getAllRecipes().distinctUntilChanged().collect { listOfRecipes ->
-                if (listOfRecipes.isEmpty()) {
-                    Log.d("CATALOG", "EMPTY LIST OF RECIPES ")
-                } else {
-                    _recipeList.value = listOfRecipes
-                }
-            }
-        }
-    }
 
 
 
 
     suspend fun addCatalog(recipesList: List<Recipe>) {
-        recipesList.forEach { recipe ->
+        viewModelScope.launch {
+            recipesList.forEach { recipe ->
 
+                repository.addRecipe(recipe)
+
+            }
         }
     }
 
@@ -101,9 +118,8 @@ class CatalogViewModel @Inject constructor (
 
         var recipeId: Long = -1
 
-        viewModelScope.launch {
-            recipeId = repository.addRecipe(recipe)
-        }.join()
+        recipeId = repository.addRecipe(recipe)
+
 
         return recipeId
     }

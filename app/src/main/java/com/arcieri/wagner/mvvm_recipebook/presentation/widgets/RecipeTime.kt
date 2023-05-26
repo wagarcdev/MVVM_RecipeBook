@@ -7,16 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 
 @Composable
@@ -27,12 +24,12 @@ fun RecipeTimeColumn(
     iconSize: Dp = 15.dp
 ) {
 
-    var recipeMinutes = recipe.recipeTime
+    var recipeMinutesLeft = recipe.recipeTimeInMinutes
     var recipeHours = 0
 
-    if (recipeMinutes >= 60) {
-        recipeHours = recipeMinutes / 60
-        recipeMinutes %= 60
+    if (recipe.recipeTimeInMinutes >= 60) {
+        recipeHours = recipe.recipeTimeInMinutes / 60
+        recipeMinutesLeft %= 60
     }
 
     Column(
@@ -61,16 +58,16 @@ fun RecipeTimeColumn(
                 fontWeight = FontWeight.ExtraBold,
                 color = colors,
                 text =
-                if (recipe.recipeTime == 0) {
+                if (recipe.recipeTimeInMinutes == 0) {
                     recipeTimeNullString
                 } else {
                     if (recipeHours == 0) {
-                        " ${recipeMinutes}min"
+                        " ${recipeMinutesLeft}min"
                     } else {
-                        if (recipeMinutes == 0) {
+                        if (recipeMinutesLeft == 0) {
                             " ${recipeHours}h"
                         } else {
-                            " ${recipeHours}h${recipeMinutes}min"
+                            " ${recipeHours}h${recipeMinutesLeft}min"
                         }
 
                     }
@@ -83,13 +80,4 @@ fun RecipeTimeColumn(
 
 
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecipeTimePreview(){
-
-    val recipe = RecipeData().loadRecipe(LocalContext.current)
-
-    RecipeTimeColumn(recipe, Color.LightGray)
 }

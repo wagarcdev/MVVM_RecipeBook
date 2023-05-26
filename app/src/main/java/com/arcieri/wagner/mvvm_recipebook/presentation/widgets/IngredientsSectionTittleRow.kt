@@ -26,7 +26,7 @@ fun IngredientsSectionTittleRow() {
             modifier = Modifier
                 .padding(horizontal = 10.dp),
             text = "Ingredients",
-            color = Color(0xFF000000),
+            color = Color(0xFFFFFFFF),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )

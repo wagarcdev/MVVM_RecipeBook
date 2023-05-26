@@ -1,15 +1,11 @@
 package com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.widget.Toast
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
@@ -22,7 +18,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,19 +31,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeNameButtonDisplay
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_title_and_time_row.EditRecipeTimeButtonDisplay
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Red
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.GradientColumn
-import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.SelectOptionAlertDialogButton
+import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ImageSelectorAlertDialogContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,14 +68,12 @@ fun ImageTitleAndTimeSelectorRowItem(
     var isCameraSelected = false
 //    var imageUri: Uri?
     var bitmap: Bitmap?
-//    var displayBitmap = remember { mutableStateOf<Bitmap?>(null)}
-    var photoFilepath: String? = null
+    var photoFilepath: String
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
 
-//        imageUri = uri
         bitmap =
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -106,11 +102,7 @@ fun ImageTitleAndTimeSelectorRowItem(
         contract = ActivityResultContracts.TakePicturePreview()
     ) { btm: Bitmap? ->
 
-//        bitmap = btm
-//        displayBitmap.value = bitmap
-
-        // CALL THIS METHOD TO GET THE ACTUAL PATH
-        photoFilepath = MediaStore.Images.Media.insertImage(context.getContentResolver(), btm, "Title", null)
+        photoFilepath = MediaStore.Images.Media.insertImage(context.contentResolver, btm, "Title", null)
 
         coroutineScope.launch {
             catalogViewModel.currentRecipe?.let {
@@ -371,74 +363,3 @@ fun ImageTitleAndTimeSelectorRowItem(
 
 }
 
-@Composable
-private fun ImageSelectorAlertDialogContent(
-    context: Context,
-    galleryLauncher: ManagedActivityResultLauncher<String, Uri?>,
-    isCameraSelected: Boolean,
-    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>,
-    isDialogOpen: MutableState<Boolean>,
-    cameraLauncher: ManagedActivityResultLauncher<Void?, Bitmap?>
-) {
-    var isCameraSelected1 = isCameraSelected
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(180.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
-
-    ) {
-        SelectOptionAlertDialogButton(
-            cardHeight = 150.dp,
-            cardWidth = 130.dp,
-            iconID = R.drawable.ic_add_image,
-            iconSize = 62.dp,
-            contentDesc = "Add Image From Gallery Icon",
-            buttonText = "From Gallery",
-            onClick = {
-                when (PackageManager.PERMISSION_GRANTED) {
-                    ContextCompat.checkSelfPermission(
-                        context, Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) -> {
-                        galleryLauncher.launch("image/*")
-
-                    }
-                    else -> {
-                        isCameraSelected1 = false
-                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }
-                }
-                isDialogOpen.value = false
-            }
-        )
-
-        Spacer(modifier = Modifier.padding(5.dp))
-
-        SelectOptionAlertDialogButton(
-            cardHeight = 150.dp,
-            cardWidth = 130.dp,
-            iconID = R.drawable.ic_add_photo,
-            iconSize = 60.dp,
-            contentDesc = "Take Photo Icon",
-            buttonText = "Take Photo",
-            onClick = {
-                when (PackageManager.PERMISSION_GRANTED) {
-                    ContextCompat.checkSelfPermission(
-                        context, Manifest.permission.CAMERA
-                    ) -> {
-                        cameraLauncher.launch()
-
-                    }
-                    else -> {
-                        isCameraSelected1 = true
-                        permissionLauncher.launch(Manifest.permission.CAMERA)
-                    }
-                }
-                isDialogOpen.value = false
-            }
-        )
-
-
-    }
-}

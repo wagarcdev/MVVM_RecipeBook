@@ -5,7 +5,7 @@ enum class Screens {
     AuthScreen,
     MainMenuScreen,
     DetailScreen,
-    CatalogScreen,
+    MainScreen,
     TestScreen,
     AddEditRecipeScreen;
 
@@ -16,7 +16,7 @@ enum class Screens {
             AuthScreen.name -> AuthScreen
             MainMenuScreen.name -> MainMenuScreen
             DetailScreen.name -> DetailScreen
-            CatalogScreen.name -> CatalogScreen
+            MainScreen.name -> MainScreen
             AddEditRecipeScreen.name -> AddEditRecipeScreen
             TestScreen.name -> TestScreen
             null -> AuthScreen

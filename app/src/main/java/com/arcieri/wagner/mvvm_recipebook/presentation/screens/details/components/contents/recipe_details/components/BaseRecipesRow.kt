@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -16,24 +16,25 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
-import com.arcieri.wagner.mvvm_recipebook.data.local.CatalogData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
-import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RecipeTimeColumn
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Orange_50
+import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RecipeImageAndInfo
 
 @Composable
-fun BaseRecipesRow(recipe: Recipe) {
+fun BaseRecipesRow(
+    catalogViewModel: CatalogViewModel
+) {
 
     var isBasesRecipesVisible by remember { mutableStateOf(true) }
+
+    val recipe = catalogViewModel.currentRecipe
+    val recipeList by catalogViewModel.recipeList.collectAsState()
 
     Row(
         modifier = Modifier
@@ -61,30 +62,33 @@ fun BaseRecipesRow(recipe: Recipe) {
             } else {
                 Icons.Default.KeyboardArrowDown
             },
-            contentDescription = "Arrow Icon"
+            contentDescription = "Arrow Icon",
+            tint = Color(0xFFFFFFFF)
         )
 
         Text(
             modifier = Modifier
                 .padding(horizontal = 10.dp),
             text =
-            if (recipe.baseRecipes.size > 1) {
+            if (recipe!!.baseRecipes.size > 1) {
                 "Bases para ${recipe.name} "
             } else {
                 "Base para ${recipe.name} "
             },
-            color = Color(0xFF000000),
+            color = Color(0xFFFFFFFF),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
     }
 
+    //TODO check this crap
+    //TODO change to getAllRecipes()
     val baseRecipes: MutableList<Recipe> = emptyList<Recipe>().toMutableList()
-    val context = LocalContext.current
 
-    for (base in recipe.baseRecipes) {
+    for (base in recipe!!.baseRecipes) {
 
-        baseRecipes += CatalogData().loadCatalog(context).filter { it.name == base }
+        baseRecipes += recipeList.filter { it.name == base }
+
 
     }
 
@@ -102,46 +106,23 @@ fun BaseRecipesRow(recipe: Recipe) {
             item {
 
                 if (baseRecipes.isNotEmpty()) {
-                    for (baseRecipe in baseRecipes) {
+                    for (base in baseRecipes) {
 
                         Card(
                             modifier = Modifier
                                 .padding(2.dp)
                                 .size(132.dp),
                             shape = RoundedCornerShape(10.dp),
-                            border = BorderStroke(1.dp, Color(0xFFD6D6D6)),
+                            border = BorderStroke(2.dp, RB_Orange_50),
                             elevation = 5.dp
                         ) {
 
-                            Column(
-                                modifier = Modifier
-                                    .padding(8.dp),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
+                            RecipeImageAndInfo(
+                                recipe = base,
+                                titleFontSize = 14.sp,
+                                showTimeAndPortions = false
+                            )
 
-                                baseRecipe.imageFilepath?.let {
-                                    AsyncImage(
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(5.dp))
-                                            .width(132.dp)
-                                            .height(80.dp),
-                                        contentScale = ContentScale.Crop,
-                                        model = it,
-                                        contentDescription = "${baseRecipe.name} image"
-                                    )
-                                }
-
-                                Text(
-                                    text = baseRecipe.name,
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-
-                                RecipeTimeColumn(baseRecipe, Color.LightGray)
-                            }
                         }
                     }
                 }

@@ -5,19 +5,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 
 @Composable
-fun TimeAndPortionsColumn(recipe: Recipe) {
+fun TimeAndPortionsColumn(
+    recipe: Recipe,
+    infoFontSize: TextUnit = 10.sp,
+    infoIconsSize: Dp = 15.dp,
+    infoIconsColor: Color = Color.LightGray
+) {
 
-    val colors = Color.LightGray
-    val fontSize = 10.sp
-    val iconSize = 15.dp
 
     Column(
         modifier = Modifier
@@ -34,12 +35,12 @@ fun TimeAndPortionsColumn(recipe: Recipe) {
 
 
 
-            if (recipe.recipeTime > 0) {
+            if (recipe.recipeTimeInMinutes > 0) {
 
-                RecipeTimeColumn(recipe, colors, fontSize, iconSize)
+                RecipeTimeColumn(recipe, infoIconsColor, infoFontSize, infoIconsSize)
             }
 
-            if (recipe.portions > 0 && recipe.recipeTime > 0) {
+            if (recipe.portions > 0 && recipe.recipeTimeInMinutes > 0) {
 
                 Spacer(modifier = Modifier.width(8.dp))
             }
@@ -48,7 +49,7 @@ fun TimeAndPortionsColumn(recipe: Recipe) {
 
             if (recipe.portions > 0) {
 
-                ShowPortionsTextColumn(recipe, colors, fontSize, iconSize)
+                ShowPortionsTextColumn(recipe, infoIconsColor, infoFontSize, infoIconsSize)
             }
 
 
@@ -63,16 +64,3 @@ fun TimeAndPortionsColumn(recipe: Recipe) {
 
 
 }//fun
-
-@Preview
-@Composable
-fun TimePortionsRowPreview() {
-
-
-
-    val recipe = RecipeData().loadRecipe(LocalContext.current)
-
-    TimeAndPortionsColumn(recipe)
-
-
-}

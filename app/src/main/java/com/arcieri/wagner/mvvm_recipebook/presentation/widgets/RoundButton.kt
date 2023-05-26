@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -49,9 +50,11 @@ import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RoundButton(
+    modifier: Modifier = Modifier,
     padding: Dp = 1.dp,
     elevation: Dp = 0.dp,
     buttonSize: Dp = 30.dp,
+    buttonShape: Shape = CircleShape,
     leftGradientColor: Color = Color(0xFF000000),
     centerLeftGradientColor: Color = Color(0xFF1B1B1B),
     centerGradientColor: Color = Color(0xFF1B1B1B),
@@ -67,10 +70,10 @@ fun RoundButton(
 ) {
 
     Card(
-        modifier = Modifier
-            .wrapContentSize()
+        modifier = modifier
             .clickable { onClick.invoke() }
-            .clip(CircleShape)
+            .clip(buttonShape)
+            .size(buttonSize)
             .background(
                 Brush.horizontalGradient(
                     listOf(
@@ -103,7 +106,7 @@ fun RoundButton(
 
                 Icon(
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(0.dp)
                         .size(iconSize),
                     painter = painterResource(id = iconID),
                     contentDescription = iconDescription,

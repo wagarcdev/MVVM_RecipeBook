@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "908480073088",
+    "project_id": "techcheflab-f4ca3",
+    "storage_bucket": "techcheflab-f4ca3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908480073088:android:f8afd586fc8b4d5a428565",
+        "android_client_info": {
+          "package_name": "com.arcieri.wagner.mvvm_recipebook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908480073088-cmq3edef800q24i6urijflj2h16ei8eb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arcieri.wagner.mvvm_recipebook",
+            "certificate_hash": "6998e89c4b69d5aef90a72469a13b347468d7520"
+          }
+        },
+        {
+          "client_id": "908480073088-t0oerr9asokiuk7hl391arh2mv548uhe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2ikFJKcFkvq_QnHa3zeJAI1O15uEQ4Yk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908480073088-j8tjkka9v46ami69ec4l1t0and0p9m6j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

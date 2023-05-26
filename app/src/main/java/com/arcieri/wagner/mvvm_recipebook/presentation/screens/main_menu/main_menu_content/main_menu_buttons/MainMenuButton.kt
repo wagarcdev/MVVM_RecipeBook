@@ -30,18 +30,20 @@ import androidx.compose.ui.unit.sp
 fun MainMenuButton(
     buttonFillMaxWidthFloat: Float = 0.8f,
     buttonVerticalPaddingDp: Dp = 0.dp,
-    textFillMaxWidthFloat: Float = 0.90f,
+    buttonMinHeight: Dp = 40.dp,
     isLoading: MutableState<Boolean?> = mutableStateOf(false),
     showIcon: Boolean = true,
     iconID: Int,
     iconSize: Dp = 30.dp,
     iconDescription: String = "",
+    iconWeight: Float = 0.1f,
     rowVerticalPadding: Dp = 2.dp,
     rowHorizontalPadding: Dp = 8.dp,
     text: String,
     textAlign: TextAlign = TextAlign.Center,
-    fontColor: Color = Color(0xFFFFFFFF),
-    fontSize: TextUnit = 16.sp,
+    textFontSize: TextUnit = 16.sp,
+    textFontColor: Color = Color(0xFFFFFFFF),
+    textFillMaxWidthFloat: Float = 0.90f,
     fontWeight: FontWeight = FontWeight.Bold,
     borderStroke: BorderStroke = BorderStroke(2.dp, Color(0xFF1F1F1F)),
     cornerDp: Dp = 50.dp,
@@ -79,7 +81,7 @@ fun MainMenuButton(
     ) {
         Row(
             modifier = Modifier
-                .defaultMinSize(minHeight = 40.dp)
+                .defaultMinSize(minHeight = buttonMinHeight)
                 .wrapContentHeight()
                 .fillMaxWidth()
                 .padding(
@@ -91,7 +93,7 @@ fun MainMenuButton(
         ) {
             Column(
                 modifier = Modifier
-                    .weight(0.1f)
+                    .weight(iconWeight)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -121,9 +123,9 @@ fun MainMenuButton(
                         .padding(horizontal = 0.dp)
                         .fillMaxWidth(textFillMaxWidthFloat),
                     text = text,
-                    fontSize = fontSize,
+                    fontSize = textFontSize,
                     fontWeight = fontWeight,
-                    color = fontColor,
+                    color = textFontColor,
                     maxLines = 1,
                     textAlign = textAlign
                 )
@@ -134,7 +136,7 @@ fun MainMenuButton(
             //DISPLAY ALIGNMENT ROW FOR CENTERING TEXT
             Column(
                 modifier = Modifier
-                    .weight(0.1f)
+                    .weight(iconWeight)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally

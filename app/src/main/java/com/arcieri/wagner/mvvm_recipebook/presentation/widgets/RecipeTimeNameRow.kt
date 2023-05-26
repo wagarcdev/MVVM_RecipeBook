@@ -6,21 +6,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeData
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
 
 @Composable
 fun RecipeInfoColumnRows(
     recipe: Recipe,
-    textColor: Color = RB_Black,
-    iconsColor: Color = Color.Gray
+    titleFontColor: Color = RB_Black,
+    titleFontSize: TextUnit = 22.sp,
+    infoFontSize: TextUnit = 14.sp,
+    infoIconsSize: Dp = 10.dp,
+    iconsColor: Color = Color.Gray,
+    showTimeAndPortions: Boolean = true
 ) {
     Column(
         modifier = Modifier
@@ -43,39 +46,39 @@ fun RecipeInfoColumnRows(
                 modifier = Modifier
                     .weight(1f),
                 text = recipe.name,
-                color = textColor,
-                fontSize = 22.sp,
+                color = titleFontColor,
+                fontSize = titleFontSize,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Start,
                 lineHeight = 15.sp
             )
         }
 
-        Row(
-            modifier = Modifier
-                .defaultMinSize(minHeight = 20.dp)
-                .wrapContentHeight()
-                .fillMaxWidth()
-                .padding(start = 20.dp, bottom = 0.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom
-        ) {
+        if(showTimeAndPortions) {
+            Row(
+                modifier = Modifier
+                    .defaultMinSize(minHeight = 20.dp)
+                    .wrapContentHeight()
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, bottom = 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom
+            ) {
 
-            if (recipe.portions > 0 || recipe.recipeTime > 0) {
-                TimeAndPortionsColumn(recipe)
+                if (recipe.portions > 0 || recipe.recipeTimeInMinutes > 0) {
+                    TimeAndPortionsColumn(
+                        recipe = recipe,
+                        infoFontSize = infoFontSize,
+                        infoIconsSize = infoIconsSize,
+                        infoIconsColor = iconsColor
+                    )
+                }
             }
         }
+
+
     }
 
 
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecipeTimeNameRowPreview() {
-
-    val recipe = RecipeData().loadRecipe(LocalContext.current)
-
-    RecipeInfoColumnRows(recipe)
 }

@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
-import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
-import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Gray
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
-import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.IngredientItem
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.IngredientsSectionTittleRow
 
@@ -41,15 +39,15 @@ fun IngredientsTable(recipe: Recipe) {
                     fontWeight = FontWeight.Normal,
                     fontColor =
                     if ( index % 2 == 0 ) {
-                        RB_Black
+                        Color(0xFFFFFFFF)
                     } else {
-                        RB_White
+                        Color(0xFFFFFFFF)
                     },
                     backgroundColor =
                     if ( index % 2 == 0 ) {
                         RB_Transparent
                     } else {
-                        RB_Gray
+                        Color(0xFF525252)
                     }
                 )
             }

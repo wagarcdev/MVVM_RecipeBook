@@ -1,7 +1,6 @@
 package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.FabPosition
@@ -10,15 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import androidx.navigation.NavHostController
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.DetailScreenContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.DetailScreenTopBar
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.EditRecipeFAB
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.components.EditRecipeFAB
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ScreenDetails(
     catalogViewModel: CatalogViewModel,
+    navHostController: NavHostController
 ) {
 
 
@@ -26,13 +27,15 @@ fun ScreenDetails(
         Scaffold(
             modifier = Modifier
                 .navigationBarsPadding()
-                .background(Color(0xFFFFFFFF))
                 .fillMaxSize(),
             topBar = { DetailScreenTopBar(recipe) },
             content =  { DetailScreenContent(catalogViewModel) },
-            floatingActionButton = { recipe.id?.let { EditRecipeFAB(catalogViewModel, it) } },
+            floatingActionButton = { recipe.id?.let {
+                EditRecipeFAB(it, catalogViewModel, navHostController) } },
             floatingActionButtonPosition = FabPosition.Center,
-            isFloatingActionButtonDocked = false
+            isFloatingActionButtonDocked = false,
+            backgroundColor = Color(0x00000000),
+            contentColor = Color(0x00000000)
         )
     }
 

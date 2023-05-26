@@ -109,7 +109,7 @@ fun RegisterButtons(wannaRegister: MutableState<Boolean>) {
                     iconDescription = "Recipes Icon",
                     textAlign = TextAlign.Center,
                     textFillMaxWidthFloat = 0.85f,
-                    fontColor = RB_Black,
+                    textFontColor = RB_Black,
                     borderStroke = BorderStroke(0.dp, Color.Transparent),
                     leftGradientColor = RB_White,
                     centerLeftGradientColor = RB_White,
@@ -220,7 +220,7 @@ fun RegisterButtons(wannaRegister: MutableState<Boolean>) {
                     centerGradientColor = RB_OrangeDark,
                     centerRightGradientColor = RB_Orange,
                     rightGradientColor = RB_OrangeLight,
-                    fontColor = RB_White
+                    textFontColor = RB_White
                 ) { /*TODO*/ }
             }
 

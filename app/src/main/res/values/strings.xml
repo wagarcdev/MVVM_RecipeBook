@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">MVVM_RecipeBook</string>
     <string name="google_cloud_server_client_id" translatable="false">1025710702287-92h753vaqpgtp6f3ic88m1lsko48p8qc.apps.googleusercontent.com</string>
+    <string name="google_id" translatable="false">908480073088-j8tjkka9v46ami69ec4l1t0and0p9m6j.apps.googleusercontent.com</string>
     <string name="auth_error_msg">Something went wrong...</string>
+    <string name="email_taken">O Email da conta já esta associado</string>
+    <string name="went_wrong">Algo deu errado</string>
+
+
+    <string name="apiIntentCanceledMessage">Operação cancelada</string>
+    <string name="apiNetworkErrorMessage">Não foi possivel conectar ao servidor</string>
+    <string name="apiUnknownCodeMessage">Ocorreu um problema com a autenticação</string>
+    <string name="unsupportedServicesMessage">Atualize a versão do Play Services de seu dispositivo para utilizar esse recurso</string>
+    <string name="unknownErrorMessage">Ocorreu um problema</string>
+    <string name="continueWithGoogle">Continue with Google</string>
+    <string name="loading">Carregando...</string>
 </resources>

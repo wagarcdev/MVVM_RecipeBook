@@ -15,7 +15,7 @@ fun AppLogo() {
 
     Image(
         modifier = Modifier
-            .fillMaxWidth(0.45f)
+            .fillMaxWidth(0.6f)
             .padding(0.dp),
         painter = painterResource(id = R.drawable.techchef_lab_logo_white),
         contentDescription = "App Logo",

@@ -114,7 +114,7 @@ private fun DefaultButton(isDialogOpen: MutableState<Boolean>) {
             centerGradientColor = RB_RedDark,
             centerRightGradientColor = RB_Red,
             rightGradientColor = RB_RedLight,
-            fontColor = RB_White
+            textFontColor = RB_White
         ) { isDialogOpen.value = false }
     }
 }

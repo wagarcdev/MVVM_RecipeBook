@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -35,14 +35,14 @@ fun RecipeMethods(recipe: Recipe) {
                 modifier = Modifier
                     .padding(10.dp),
                 text = "Modo de Preparo",
-                color = Color(0xFF000000),
+                color = Color(0xFFFFFFFF),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
         }
 
         recipe.recipeMethods.forEachIndexed { index, method ->
-            IndexedMethod(index, method, textColor = Color(0xFF222222))
+            IndexedMethod(index, method, textColor = Color(0xFFC5C5C5))
         }
     }
 

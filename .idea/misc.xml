@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -18,10 +17,12 @@
         <entry key="..\:/Users/wagner/AndroidStudioProjects/MVVM_RecipeBook/app/src/main/res/drawable/ic_edit_pencil.xml" value="0.1295" />
         <entry key="..\:/Users/wagner/AndroidStudioProjects/MVVM_RecipeBook/app/src/main/res/drawable/ic_fork_knife.xml" value="0.236" />
         <entry key="..\:/Users/wagner/AndroidStudioProjects/MVVM_RecipeBook/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1865" />
+        <entry key="..\:/Users/wagner/AndroidStudioProjects/MVVM_RecipeBook/app/src/main/res/drawable/ic_new_recipe_white.xml" value="0.1335" />
+        <entry key="..\:/Users/wagner/AndroidStudioProjects/MVVM_RecipeBook/app/src/main/res/drawable/ic_rule.xml" value="0.237" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

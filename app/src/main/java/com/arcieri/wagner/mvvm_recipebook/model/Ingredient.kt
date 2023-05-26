@@ -1,6 +1,6 @@
 package com.arcieri.wagner.mvvm_recipebook.model
 
-import android.os.Parcelable
+import com.google.gson.annotations.JsonAdapter
 
 data class Ingredient(
 
@@ -11,16 +11,14 @@ data class Ingredient(
     var volumeInLiters: Float? = null,
     var volumeInMilliliters: Int? = null,
     var quantity: Double? = null,
-    var isLiquid: Boolean,
-    var isUnit: Boolean,
-    var isWeight: Boolean,
+    @JsonAdapter(MeasurementType.MeasurementTypeAdapter::class)
+    var measurementType: MeasurementType? = null,
     var textHowToMeasure: String? = null
     ) {
 
     fun adjustMeasuringUnits(){
-
-        if (!isUnit) {
-            if (isLiquid) {
+        when(measurementType){
+            MeasurementType.LIQUID -> {
                 if (volumeInLiters != null && volumeInMilliliters == null) {
                     volumeInMilliliters = volumeInLiters!!.toInt() * 1000
                 }
@@ -28,23 +26,17 @@ data class Ingredient(
                 if (volumeInMilliliters != null && volumeInLiters == null) {
                     volumeInLiters = volumeInMilliliters!!.toFloat() / 1000
                 }
-                return
             }
+            MeasurementType.WEIGHT -> {
+                if (weightInGrams != null && weightInKg == null) {
+                    weightInKg = weightInGrams!!.toFloat() / 1000
+                }
 
-            if (weightInGrams != null && weightInKg == null) {
-                weightInKg = weightInGrams!!.toFloat() / 1000
+                if (weightInKg != null && weightInGrams == null) {
+                    weightInGrams = weightInKg!!.toInt() * 1000
+                }
             }
-
-            if (weightInKg != null && weightInGrams == null) {
-                weightInGrams = weightInKg!!.toInt() * 1000
-            }
+            else -> {}
         }
-
-
-
-
-
-
     }
-
 }

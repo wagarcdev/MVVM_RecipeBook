@@ -9,7 +9,6 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,18 +19,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInGoogleViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.google_one_tap_sign_in.OneTapSignInState
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main_menu.main_menu_content.main_menu_buttons.MainMenuButton
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.*
-import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.GoogleButton
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignInButtons(
-    signInGoogleViewModel: SignInGoogleViewModel,
+    signInGoogleViewModel: SignInViewModel,
     wannaRegister: MutableState<Boolean>,
     forgotPassword: MutableState<Boolean>,
-    onClick: () -> Unit,
+    oneTapSignInState: OneTapSignInState,
     isError: Boolean = false
 ) {
 
@@ -47,7 +47,7 @@ fun SignInButtons(
     Column(
         modifier = Modifier
             .imePadding()
-            .navigationBarsWithImePadding()
+            .navigationBarsPadding()
             .defaultMinSize(300.dp)
             .wrapContentHeight()
             .fillMaxWidth(),
@@ -99,28 +99,19 @@ fun SignInButtons(
 
             item {
 
-                val isLoadingState = signInGoogleViewModel.loading.observeAsState() as MutableState
 
                 /** Sign In Google Button*/
-                MainMenuButton(
-                    buttonFillMaxWidthFloat = buttonFillWidthFloat,
-                    buttonVerticalPaddingDp = 15.dp,
-                    isLoading = isLoadingState,
-                    iconID = R.drawable.ic_google_logo,
-                    text = "Sign In using Google",
-                    iconDescription = "Google Icon",
-                    textAlign = TextAlign.Center,
-                    textFillMaxWidthFloat = 0.85f,
-                    fontColor = RB_Black,
-                    fontWeight = FontWeight.SemiBold,
-                    borderStroke = BorderStroke(0.dp, Color.Transparent),
-                    leftGradientColor = RB_White,
-                    centerLeftGradientColor = RB_White,
-                    centerGradientColor = RB_White,
-                    centerRightGradientColor = RB_White,
-                    rightGradientColor = RB_White,
-                    bottomSpacer = 0.dp
-                ) { onClick.invoke() }
+
+                GoogleButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .requiredWidthIn(max = 300.dp),
+                    onClick = oneTapSignInState::open,
+                    text = stringResource(id = R.string.continueWithGoogle),
+                    enabled = !oneTapSignInState.opened,
+                    isLoading = oneTapSignInState.opened
+                )
 
                 when {
                     isError -> {
@@ -226,7 +217,7 @@ fun SignInButtons(
                         centerGradientColor = RB_OrangeDark,
                         centerRightGradientColor = RB_Orange,
                         rightGradientColor = RB_OrangeLight,
-                        fontColor = RB_White
+                        textFontColor = RB_White
                     ) { /*TODO*/ }
 
                     Row(

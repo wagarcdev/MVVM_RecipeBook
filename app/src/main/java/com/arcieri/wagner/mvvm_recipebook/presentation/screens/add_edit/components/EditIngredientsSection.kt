@@ -6,13 +6,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_ingredients_section.AddNewItemButtonCard
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_ingredients_section.IngredientIsNotSelectedContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_ingredients_section.IngredientIsSelectedContent
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Orange
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Orange_50
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.AnimatedCardView
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.IngredientsSectionTittleRow
 
@@ -44,7 +46,9 @@ fun EditIngredientsSection(
                         ingredient,
                         onTextQuantityChange = {})
                 },
-                isSelectedBorderColor = Color(0xFF0022A3),
+                backgroundColor = RB_Transparent,
+                isSelectedBorderColor = RB_Orange,
+                isNotSelectedBorderColor = RB_Orange_50,
                 fillMaxWidthFloat = 0.9f
             )
 

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black_25
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 
 @Composable
 fun IndexedMethod(
@@ -24,7 +25,7 @@ fun IndexedMethod(
     fontSize: TextUnit = 15.sp,
     fontWeight: FontWeight = FontWeight.Bold,
     fontStyle: FontStyle? = null,
-    textColor: Color = Color(0xFF000000),
+    textColor: Color = RB_White,
 ) {
     Column(
         modifier = Modifier

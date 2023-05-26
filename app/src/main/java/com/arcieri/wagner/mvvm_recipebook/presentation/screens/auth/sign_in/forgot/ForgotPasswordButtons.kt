@@ -141,7 +141,7 @@ fun ForgotPasswordButtons(forgotPassword: MutableState<Boolean>) {
                     centerGradientColor = RB_OrangeDark,
                     centerRightGradientColor = RB_Orange,
                     rightGradientColor = RB_OrangeLight,
-                    fontColor = RB_White
+                    textFontColor = RB_White
                 ) { /*TODO*/ }
             }
 

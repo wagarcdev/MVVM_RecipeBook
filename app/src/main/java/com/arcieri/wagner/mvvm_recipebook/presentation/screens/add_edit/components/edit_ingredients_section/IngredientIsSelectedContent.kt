@@ -22,6 +22,11 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
+import com.arcieri.wagner.mvvm_recipebook.model.MeasurementType
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Orange
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Red
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import java.text.DecimalFormat
 import kotlin.math.floor
 
@@ -34,6 +39,7 @@ fun IngredientIsSelectedContent(
     ingredient: Ingredient,
     textSize: TextUnit = 12.sp,
     fontWeight: FontWeight = FontWeight.Normal,
+    backgroundColor: Color = RB_Transparent,
     onTextQuantityChange: (String) -> Unit,
 
     ) {
@@ -99,9 +105,12 @@ fun IngredientIsSelectedContent(
                                         onValueChange = {},
                                         singleLine = true,
                                         colors = TextFieldDefaults.textFieldColors(
-                                            backgroundColor = Color(
-                                                0x00FFFFFF
-                                            )
+                                            backgroundColor = backgroundColor,
+                                            textColor = RB_White,
+                                            cursorColor = RB_Orange,
+                                            errorCursorColor = RB_Red,
+
+
                                         ),
                                         keyboardOptions = KeyboardOptions.Default.copy(
                                             imeAction = ImeAction.Done
@@ -110,6 +119,7 @@ fun IngredientIsSelectedContent(
                                             keyboardController?.hide()
                                         }),
                                         textStyle = TextStyle(
+                                            color = RB_White,
                                             fontSize = 15.sp,
                                             fontWeight = FontWeight.Bold
                                         ),
@@ -138,19 +148,19 @@ fun IngredientIsSelectedContent(
                                     Text(
                                         textAlign = TextAlign.Center,
                                         fontStyle = FontStyle.Italic,
-                                        color = Color(0xFF2C2C2C),
+                                        color = RB_White,
                                         fontSize = textSize,
                                         fontWeight = fontWeight,
                                         text =
-                                        when {
-                                            ingredient.isUnit -> {
+                                        when (ingredient.measurementType) {
+                                            MeasurementType.UNIT -> {
                                                 if (ingredient.quantity == floor(ingredient.quantity!!)) {
                                                     df.format(ingredient.quantity)
                                                 } else {
                                                     "${ingredient.quantity}"
                                                 }
                                             }
-                                            ingredient.isLiquid -> {
+                                            MeasurementType.LIQUID -> {
                                                 if (ingredient.volumeInMilliliters!! >= 1000) {
                                                     if (ingredient.volumeInLiters == floor(
                                                             ingredient.volumeInLiters!!
@@ -164,7 +174,7 @@ fun IngredientIsSelectedContent(
                                                     "${ingredient.volumeInMilliliters}"
                                                 }
                                             }
-                                            ingredient.isWeight -> {
+                                            MeasurementType.WEIGHT -> {
                                                 if (ingredient.weightInGrams!! >= 1000) {
                                                     if (ingredient.weightInKg == floor(
                                                             ingredient.weightInKg!!
@@ -202,15 +212,15 @@ fun IngredientIsSelectedContent(
                                     Text(
                                         textAlign = TextAlign.Center,
                                         fontStyle = FontStyle.Italic,
-                                        color = Color(0xFF2C2C2C),
+                                        color = RB_White,
                                         fontSize = textSize,
                                         fontWeight = fontWeight,
                                         text =
-                                        when {
-                                            ingredient.isUnit -> {
+                                        when (ingredient.measurementType) {
+                                            MeasurementType.UNIT -> {
                                                 " Un."
                                             }
-                                            ingredient.isLiquid -> {
+                                            MeasurementType.LIQUID -> {
                                                 if (ingredient.volumeInMilliliters!! >= 1000) {
                                                     " L"
                                                 } else {
@@ -218,7 +228,7 @@ fun IngredientIsSelectedContent(
                                                 }
 
                                             }
-                                            ingredient.isWeight -> {
+                                            MeasurementType.WEIGHT -> {
                                                 if (ingredient.weightInGrams!! >= 1000) {
                                                     " Kg"
                                                 } else {
@@ -257,9 +267,10 @@ fun IngredientIsSelectedContent(
                         onValueChange = {},
                         singleLine = true,
                         colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color(
-                                0x00FFFFFF
-                            )
+                            backgroundColor = backgroundColor,
+                            textColor = RB_White,
+                            cursorColor = RB_Orange,
+                            errorCursorColor = RB_Red,
                         ),
                         keyboardOptions = KeyboardOptions.Default.copy(
                             imeAction = ImeAction.Done

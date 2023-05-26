@@ -8,16 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arcieri.wagner.mvvm_recipebook.data.local.RecipeData
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
+import com.arcieri.wagner.mvvm_recipebook.model.MeasurementType
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import java.text.DecimalFormat
@@ -103,13 +101,13 @@ fun IngredientItem(
                             val df = DecimalFormat("##")
                             Text(
                                 textAlign = TextAlign.Center,
-                                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                                fontStyle = FontStyle.Italic,
                                 color = fontColor,
                                 fontSize = fontSize,
                                 fontWeight = fontWeight,
                                 text =
-                                when {
-                                    ingredient.isUnit -> {
+                                when (ingredient.measurementType) {
+                                    MeasurementType.UNIT -> {
                                         if (ingredient.quantity ==
                                             ingredient.quantity?.let {floor(it)}) {
 
@@ -120,7 +118,7 @@ fun IngredientItem(
                                             "${ingredient.quantity}"
                                         }
                                     }
-                                    ingredient.isLiquid -> {
+                                    MeasurementType.LIQUID -> {
                                         if (ingredient.volumeInMilliliters!! >= 1000) {
                                             if (ingredient.volumeInLiters ==
                                                 ingredient.volumeInLiters?.let {floor(it)}) {
@@ -134,7 +132,7 @@ fun IngredientItem(
                                             "${ingredient.volumeInMilliliters}"
                                         }
                                     }
-                                    ingredient.isWeight -> {
+                                    MeasurementType.WEIGHT -> {
                                         if (ingredient.weightInGrams!! >= 1000) {
                                             if (ingredient.weightInKg ==
                                                 ingredient.weightInKg?.let {floor(it)}) {
@@ -175,11 +173,11 @@ fun IngredientItem(
                                 fontSize = fontSize,
                                 fontWeight = fontWeight,
                                 text =
-                                when {
-                                    ingredient.isUnit -> {
+                                when (ingredient.measurementType) {
+                                    MeasurementType.UNIT -> {
                                         " Un."
                                     }
-                                    ingredient.isLiquid -> {
+                                    MeasurementType.LIQUID -> {
                                         if (ingredient.volumeInMilliliters!! >= 1000) {
                                             " L"
                                         } else {
@@ -187,7 +185,7 @@ fun IngredientItem(
                                         }
 
                                     }
-                                    ingredient.isWeight -> {
+                                    MeasurementType.WEIGHT -> {
                                         if (ingredient.weightInGrams!! >= 1000) {
                                             " Kg"
                                         } else {
@@ -234,12 +232,3 @@ fun IngredientItem(
     }//Ingredient Column
 }//Fun
 
-
-@Preview(showBackground = true)
-@Composable
-fun IngredientItemPreview() {
-
-    val recipe = RecipeData().loadRecipe(LocalContext.current)
-
-    IngredientItem(ingredient = recipe.ingredients!![0])
-}

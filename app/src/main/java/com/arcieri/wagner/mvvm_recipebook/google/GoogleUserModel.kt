@@ -1,7 +1,7 @@
 package com.arcieri.wagner.mvvm_recipebook.google
 
-class GoogleUserModel(
-    email: String?,
-    name: String?
+data class GoogleUserModel(
+    val email: String?,
+    val name: String?
 ) {
 }

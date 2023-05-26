@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_ingredients_section.AddNewItemButtonCard
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_methods_section.MethodIsNotSelectedContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.components.edit_methods_section.MethodIsSelectedContent
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.AnimatedCardView
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RecipeInputText
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.ShowAlertDialog
@@ -56,13 +57,12 @@ fun EditMethodsSection(
                 modifier = Modifier
                     .padding(horizontal = 14.dp),
                 text = "Preparation Methods",
-                color = Color(0xFF000000),
+                color = RB_White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
         }
 
-//        val recipeDraftMethods = emptyList<String>().toMutableList()
         val recipeDraftMethods = remember { mutableListOf<String>() }
 
         catalogViewModel.currentRecipe?.recipeMethods?.forEach { method ->

@@ -9,8 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
+import com.arcieri.wagner.mvvm_recipebook.model.MeasurementType
 import com.arcieri.wagner.mvvm_recipebook.model.Recipe
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.PieChart
 import com.arcieri.wagner.mvvm_recipebook.utils.RandomColors
 
@@ -33,7 +34,7 @@ fun RecipeChartsContent(catalogViewModel: CatalogViewModel) {
 
     ingredients?.forEach { ingredient ->
 
-        if (ingredient.isWeight) {
+        if (ingredient.measurementType == MeasurementType.WEIGHT) {
 
             ingredient.adjustMeasuringUnits()
 
@@ -46,7 +47,7 @@ fun RecipeChartsContent(catalogViewModel: CatalogViewModel) {
             totalIngredientsPoints.add(ingredient.weightInGrams!!.toFloat())
         }
 
-        if (ingredient.isLiquid) {
+        if (ingredient.measurementType == MeasurementType.LIQUID) {
 
             ingredient.adjustMeasuringUnits()
 
@@ -106,7 +107,7 @@ private fun IngredientsCharts(recipe: Recipe) {
 
     ingredients.forEach { ingredient ->
 
-        if (ingredient.isWeight) {
+        if (ingredient.measurementType == MeasurementType.WEIGHT) {
 
             ingredient.adjustMeasuringUnits()
 
@@ -119,7 +120,7 @@ private fun IngredientsCharts(recipe: Recipe) {
             totalIngredientsPoints.add(ingredient.weightInGrams!!.toFloat())
         }
 
-        if (ingredient.isLiquid) {
+        if (ingredient.measurementType == MeasurementType.LIQUID) {
 
             ingredient.adjustMeasuringUnits()
 

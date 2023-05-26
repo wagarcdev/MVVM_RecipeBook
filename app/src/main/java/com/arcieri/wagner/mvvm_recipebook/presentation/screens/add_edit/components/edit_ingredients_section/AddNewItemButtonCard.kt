@@ -13,11 +13,11 @@ import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 
 /**
@@ -43,7 +43,7 @@ fun AddNewItemButtonCard(
         elevation = 5.dp,
         shape = RoundedCornerShape(50.dp),
         border = BorderStroke(2.dp, MaterialTheme.colors.primary),
-        backgroundColor = RB_White
+        backgroundColor = RB_Transparent
     ) {
         Row(
             modifier = Modifier
@@ -63,7 +63,7 @@ fun AddNewItemButtonCard(
                 text = buttonText,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF000000)
+                color = RB_White
             )
         }
     }

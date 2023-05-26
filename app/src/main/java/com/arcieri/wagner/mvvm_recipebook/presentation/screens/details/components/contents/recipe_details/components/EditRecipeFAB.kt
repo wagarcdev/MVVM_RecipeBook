@@ -1,4 +1,4 @@
-package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components
+package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -8,16 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.arcieri.wagner.mvvm_recipebook.R
 import com.arcieri.wagner.mvvm_recipebook.navigation.Screens
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.*
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.RoundButton
 
 @Composable
 fun EditRecipeFAB(
+    recipeId: Long,
     catalogViewModel: CatalogViewModel,
-    recipeId: Long
+    navHostController: NavHostController
 ) {
 
 
@@ -33,16 +35,16 @@ fun EditRecipeFAB(
             buttonSize = 100.dp,
             onClick = {
 
-                catalogViewModel.navHostController
+                navHostController
                     .navigate(
                         route = Screens.AddEditRecipeScreen.name + "/${recipeId}")
 
             },
-            leftGradientColor =  RB_BlueDarker,
-            centerLeftGradientColor = RB_BlueDark,
-            centerGradientColor = RB_BlueDark,
-            centerRightGradientColor = RB_Blue,
-            rightGradientColor = RB_BlueLight,
+            leftGradientColor = RB_OrangeDarker,
+            centerLeftGradientColor = RB_OrangeDark,
+            centerGradientColor = RB_OrangeDark,
+            centerRightGradientColor = RB_Orange,
+            rightGradientColor = RB_OrangeLight,
             borderColor = RB_Transparent,
             elevation = 0.dp,
             iconID = R.drawable.ic_edit_pencil,

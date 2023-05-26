@@ -8,6 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.model.Ingredient
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 import com.arcieri.wagner.mvvm_recipebook.presentation.widgets.IngredientItem
 
 /**
@@ -31,6 +32,7 @@ fun IngredientIsNotSelectedContent(ingredient: Ingredient) {
             IngredientItem(
                 ingredient = ingredient,
                 fontWeight = FontWeight.Bold,
+                fontColor = RB_White,
                 fontSize = 15.sp
             )
         }

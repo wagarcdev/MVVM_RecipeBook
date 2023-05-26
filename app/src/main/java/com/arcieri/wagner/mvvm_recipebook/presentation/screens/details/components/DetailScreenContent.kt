@@ -1,8 +1,8 @@
 package com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.LocalOverscrollConfiguration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.LocalOverScrollConfiguration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Center
 import androidx.compose.foundation.shape.CircleShape
@@ -13,14 +13,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_chart.RecipeChartsContent
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.details.components.contents.recipe_details.RecipeDetailsContent
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.*
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
@@ -33,11 +34,12 @@ fun DetailScreenContent(
 ) {
 
     val pagerState = rememberPagerState()
+
     
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(RB_White)) {
+    ) {
 
         TabRowPart(pagerState = pagerState)
 
@@ -81,7 +83,7 @@ private fun TabRowPart(pagerState: PagerState) {
                 modifier = Modifier
                     .pagerTabIndicatorOffset(pagerState = pagerState, tabPositions = tabPositions),
                 height = 3.dp,
-                color = RB_BlueDark
+                color = RB_Orange
             )
         }
     ) {
@@ -161,10 +163,12 @@ private fun PagerContent(
     pagerState: PagerState,
 ) {
     
-    CompositionLocalProvider( LocalOverScrollConfiguration provides null ) {
+    CompositionLocalProvider( LocalOverscrollConfiguration provides null ) {
 
         HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0x00000000)),
             count = 3,
             state = pagerState,
             verticalAlignment = Alignment.Top

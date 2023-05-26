@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arcieri.wagner.mvvm_recipebook.R
-import com.arcieri.wagner.mvvm_recipebook.presentation.screens.catalog.CatalogViewModel
+import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewModel
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Black
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
 import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White

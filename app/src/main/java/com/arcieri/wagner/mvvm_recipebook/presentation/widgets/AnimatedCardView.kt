@@ -15,10 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_Transparent
+import com.arcieri.wagner.mvvm_recipebook.presentation.ui.theme.RB_White
 
 @Composable
 fun AnimatedCardView(
     modifier: Modifier = Modifier,
+    backgroundColor: Color = RB_Transparent,
+    fontColor: Color= RB_White,
     fillMaxWidthFloat: Float = 1f,
     spaceByPadding: Dp = 6.dp,
     isSelectedBorderColor: Color = Color(0xFF0022A3),
@@ -48,7 +52,8 @@ fun AnimatedCardView(
                     BorderStroke(
                         width = 1.dp,
                         color = isNotSelectedBorderColor
-                    )
+                    ),
+                backgroundColor = backgroundColor
             ) {
                 isNotSelectedContent.invoke()
 
@@ -71,7 +76,9 @@ fun AnimatedCardView(
                     BorderStroke(
                         width = 2.dp,
                         color = isSelectedBorderColor
-                    )
+                    ),
+                backgroundColor = backgroundColor
+
             ) {
                 isSelectedContent.invoke()
 

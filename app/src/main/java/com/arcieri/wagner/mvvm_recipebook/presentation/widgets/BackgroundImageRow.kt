@@ -45,7 +45,7 @@ private fun BackgroundContent() {
         Column(
             modifier = Modifier
                 .systemBarsPadding()
-                .padding(top = 8.dp)
+                .padding(top = 72.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
