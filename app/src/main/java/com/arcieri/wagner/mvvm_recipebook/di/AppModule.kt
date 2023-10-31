@@ -29,7 +29,4 @@ object AppModule {
      ).fallbackToDestructiveMigration()
         .createFromAsset("database/recipes_db.db")
         .build()
-
-
-
 }

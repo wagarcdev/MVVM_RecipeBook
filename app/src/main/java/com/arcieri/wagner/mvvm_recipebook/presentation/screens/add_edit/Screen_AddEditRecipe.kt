@@ -22,11 +22,7 @@ import com.arcieri.wagner.mvvm_recipebook.presentation.screens.main.CatalogViewM
 @Composable
 fun ScreenAddEditRecipe(
     catalogViewModel: CatalogViewModel,
-    recipeId: Long
 ) {
-
-    //TODO recipe time displayed in Main Menu card does not match AddEdit time set
-
     val itemPadding = 1.dp
 
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
@@ -48,6 +44,4 @@ fun ScreenAddEditRecipe(
 
         }
     }
-
 }
-

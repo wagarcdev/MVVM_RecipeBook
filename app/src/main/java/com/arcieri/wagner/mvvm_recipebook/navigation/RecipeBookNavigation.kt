@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.arcieri.wagner.mvvm_recipebook.navigation.TeladesseArquivo.ESSA_TELA
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.add_edit.ScreenAddEditRecipe
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.AuthScreen
 import com.arcieri.wagner.mvvm_recipebook.presentation.screens.auth.sign_in.SignInViewModel
@@ -76,20 +77,24 @@ fun RecipeBookNavigation(
             )
         }
 
+        val recipeArg = "recipeId"
         /** AddEditRecipeScreen */
         composable(
-            route = Screens.AddEditRecipeScreen.name + "/{recipeId}",
-            arguments = listOf(navArgument("recipeId") {
-                type = NavType.LongType
-                defaultValue = -1
-            })
+            route = "$ESSA_TELA/{$recipeArg}",
+            arguments = listOf(
+                navArgument(recipeArg) {
+                    type = NavType.LongType
+                    defaultValue = -1
+                },
+            )
         ) {
 
-            val recipeId = remember {
-                it.arguments?.getLong("recipeId")
-            }
+
+            val recipeId = it.arguments?.getLong(recipeArg)
 
             if (recipeId != null) {
+
+
                 ScreenAddEditRecipe(
                     catalogViewModel = catalogViewModel,
                     recipeId = recipeId
@@ -101,4 +106,10 @@ fun RecipeBookNavigation(
     }
 
 
+
+
+}
+
+object TeladesseArquivo {
+    const val ESSA_TELA = "ESSA"
 }
