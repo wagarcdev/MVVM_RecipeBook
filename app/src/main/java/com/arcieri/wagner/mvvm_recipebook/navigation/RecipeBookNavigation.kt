@@ -34,11 +34,14 @@ fun RecipeBookNavigation(
 
     NavHost(
         startDestination =
-        if (currentUserId != null) {
+//        if (currentUserId != null) {
+//            Screens.MainScreen.name
+//        } else {
             Screens.MainScreen.name
-        } else {
-            Screens.AuthScreen.name
-        },
+//        }
+,
+
+
         navController = navHostController
     ) {
 
